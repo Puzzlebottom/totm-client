@@ -1,5 +1,5 @@
 function App() {
-  return <div>Hello World</div>;
+  return <h1 data-testid="title">Hello World!</h1>;
 }
 
 export default App;

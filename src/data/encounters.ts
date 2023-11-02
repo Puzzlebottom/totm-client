@@ -1,13 +1,4 @@
-type Encounter = {
-  readonly id: number;
-  name: string;
-  description: string;
-  isActive: boolean;
-  round: number;
-  turn: number;
-  owner: number;
-  readonly createdAt: Date;
-};
+import { Encounter } from '../interfaces/Encounter';
 
 const encounters: Encounter[] = [
   {

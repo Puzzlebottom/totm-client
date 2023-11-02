@@ -6,5 +6,5 @@ export interface Encounter {
   round: number;
   turn: number;
   owner: number;
-  readonly createdAt: Date;
+  readonly createdAt: number;
 }

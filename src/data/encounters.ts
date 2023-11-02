@@ -4,7 +4,8 @@ const encounters: Encounter[] = [
   {
     id: 0,
     name: 'Amazing Encounter',
-    description: 'An encounter with various monsters in an environment of some kind',
+    description:
+      'An encounter with various monsters in an environment of some kind',
     isActive: false,
     round: 0,
     turn: 0,
@@ -54,7 +55,8 @@ const encounters: Encounter[] = [
   {
     id: 5,
     name: 'Underwater Adventure',
-    description: 'Dive into the depths of the ocean for an underwater adventure',
+    description:
+      'Dive into the depths of the ocean for an underwater adventure',
     isActive: false,
     round: 0,
     turn: 0,
@@ -84,7 +86,8 @@ const encounters: Encounter[] = [
   {
     id: 8,
     name: 'Lost in Space',
-    description: 'Get lost in the vastness of space and encounter alien lifeforms',
+    description:
+      'Get lost in the vastness of space and encounter alien lifeforms',
     isActive: false,
     round: 0,
     turn: 0,
@@ -93,9 +96,9 @@ const encounters: Encounter[] = [
   },
   {
     id: 9,
-    name: 'Pirate's Cove',
-      description: 'Search for buried treasure on a hidden pirate's cove',
-      isActive: false,
+    name: "Pirate's Cove",
+    description: "Search for buried treasure on a hidden pirate's cove",
+    isActive: false,
     round: 0,
     turn: 0,
     owner: 0,

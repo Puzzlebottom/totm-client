@@ -33,7 +33,7 @@ button.add-encounter{
     box-shadow: var(--button-hover-box-shadow);
     transform: scale(1.02);
     >svg {
-      fill: var(--secondary-hover);
+      fill: var(--primary);
     }
   }
 }

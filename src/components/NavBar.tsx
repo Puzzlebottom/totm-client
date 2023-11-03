@@ -20,10 +20,14 @@ export default function NavBar({ links }: Props) {
       </ul>
       <ul>
         <li>
-          <button type="button">Login</button>
+          <button type="button" className="outline">
+            Login
+          </button>
         </li>
         <li>
-          <button type="button">Register</button>
+          <button type="button" className="outline">
+            Register
+          </button>
         </li>
       </ul>
     </nav>

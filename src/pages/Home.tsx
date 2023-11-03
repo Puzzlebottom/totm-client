@@ -1,41 +1,33 @@
-// import { useQuery } from '@tanstack/react-query';
-// import axios from 'redaxios';
-// import { useState } from 'react';
 import { FaPlus } from 'react-icons/fa';
 
-import { Encounter } from '../interfaces/Encounter';
+import dummyEncounters from '../data/encounters';
+import useEncounters from '../hooks/useEncounters';
 import '../styles/home.css';
 
-// import { APIResponse } from '../interfaces/APIResponse';
-interface Props {
-  encounters: Encounter[];
-}
+function Home() {
+  const { encounters, addEncounter, deleteEncounter } =
+    useEncounters(dummyEncounters);
 
-function Home({ encounters }: Props) {
-  // const [search, setSearch] = useState('');
-  // const [searchURL, setSearchURL] = useState('');
-
-  // const {
-  //   isFetching,
-  //   error,
-  //   data: results,
-  // } = useQuery({
-  //   queryKey: ['search', searchURL],
-  //   queryFn: async () => {
-  //     const { data } = await axios.get(searchURL);
-  //     return data as APIResponse;
-  //   },
-  //   enabled: !!searchURL,
-  // });
-
-  // const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-  //   e.preventDefault();
-  //   setSearchURL(`https://nature-image-api.vercel.app/search?q=${search}`);
-  // };
-
+  const handleAddEncounter: (e: React.MouseEvent) => void = (e) => {
+    e.preventDefault();
+    addEncounter({
+      id: 0,
+      name: 'test',
+      description: 'test',
+      isActive: false,
+      round: 0,
+      turn: 0,
+      owner: 0,
+      createdAt: Date.now(),
+    });
+  };
   return (
     <main className="container">
-      <button type="button" className="add-encounter">
+      <button
+        type="button"
+        className="add-encounter"
+        onClick={handleAddEncounter}
+      >
         <FaPlus />
       </button>
       {encounters.map((encounter) => (

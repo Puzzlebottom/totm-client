@@ -1,0 +1,15 @@
+nav {
+  position: fixed;
+  width: 100%;
+  padding: 0 1em 0 1em;
+  background-color: var(--card-sectionning-background-color);
+
+  >h2 {
+    margin-top: 0.5em;
+    margin-bottom: 0.5em;
+    padding: 0.1em 0.2em;
+    border: 0.15em solid var(--primary);
+    color: var(--color);
+    border-radius: var(--border-radius);
+  }
+}

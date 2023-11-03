@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+import '../styles/navbar.css';
 
 interface Props {
   links: string[];
@@ -7,12 +8,24 @@ interface Props {
 export default function NavBar({ links }: Props) {
   return (
     <nav>
-      <Link to="/">TOTM</Link>
-      {links.map((link) => (
-        <Link to={link} key={link}>
-          {link}
-        </Link>
-      ))}
+      <h2>
+        <Link to="/">TOTM</Link>
+      </h2>
+      <ul>
+        {links.map((link) => (
+          <li key={link}>
+            <Link to={link}>{link}</Link>
+          </li>
+        ))}
+      </ul>
+      <ul>
+        <li>
+          <button type="button">Login</button>
+        </li>
+        <li>
+          <button type="button">Register</button>
+        </li>
+      </ul>
     </nav>
   );
 }

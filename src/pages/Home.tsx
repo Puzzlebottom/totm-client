@@ -1,8 +1,10 @@
 // import { useQuery } from '@tanstack/react-query';
 // import axios from 'redaxios';
 // import { useState } from 'react';
+import { FaPlus } from 'react-icons/fa';
 
 import { Encounter } from '../interfaces/Encounter';
+import '../styles/home.css';
 
 // import { APIResponse } from '../interfaces/APIResponse';
 interface Props {
@@ -32,10 +34,15 @@ function Home({ encounters }: Props) {
   // };
 
   return (
-    <main>
+    <main className="container">
+      <button type="button" className="add-encounter">
+        <FaPlus />
+      </button>
       {encounters.map((encounter) => (
         <article key={encounter.id}>
-          <header>{encounter.name}</header>
+          <header>
+            <strong>{encounter.name}</strong>
+          </header>
           <p>{encounter.description}</p>
         </article>
       ))}

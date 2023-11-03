@@ -4,13 +4,9 @@ import { MemoryRouter } from 'react-router-dom';
 
 import { WrappedApp, App } from './App';
 
-describe.skip('App', () => {
-  it('renders the app and displays it', () => {
+describe('App', () => {
+  it.skip('renders the app and displays it', () => {
     render(<WrappedApp />);
-
-    expect(screen.getByRole('heading', { level: 1 })).toHaveTextContent(
-      'Hello World!'
-    );
   });
 
   it('Renders not found if path is invalid', () => {

@@ -1,0 +1,39 @@
+main {
+  padding: 2em;
+  padding-top: 5em;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(auto-fill);
+  column-gap: 2em;
+  text-align: center;
+
+  >article:hover {
+    transform: scale(1.02);
+    box-shadow: var(--card-box-shadow);
+  }
+}
+
+
+button.add-encounter{
+  text-align: center;
+  background-color: var(--card-background-color);
+  margin: var(--block-spacing-vertical) 0;
+  padding: var(--block-spacing-vertical) var(--block-spacing-horizontal);
+  box-shadow: var(--button-box-shadow);
+  border: none;
+  >svg {
+    fill: var(--secondary);
+    width: 30%;
+    height: 30%;
+  }
+
+  &:hover {    
+    cursor: pointer;
+    background-color: var(--card-sectionning-background-color);
+    box-shadow: var(--button-hover-box-shadow);
+    transform: scale(1.02);
+    >svg {
+      fill: var(--secondary-hover);
+    }
+  }
+}

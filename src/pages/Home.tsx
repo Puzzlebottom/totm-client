@@ -30,14 +30,16 @@ function Home() {
       >
         <FaPlus />
       </button>
-      {encounters.map((encounter) => (
-        <article key={encounter.id}>
-          <header>
-            <strong>{encounter.name}</strong>
-          </header>
-          <p>{encounter.description}</p>
-        </article>
-      ))}
+      {encounters
+        .sort((a, b) => b.createdAt - a.createdAt)
+        .map((encounter) => (
+          <article key={encounter.id}>
+            <header>
+              <strong>{encounter.name}</strong>
+            </header>
+            <p>{encounter.description}</p>
+          </article>
+        ))}
     </main>
   );
 }

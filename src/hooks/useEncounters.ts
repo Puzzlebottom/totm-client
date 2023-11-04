@@ -1,39 +1,28 @@
 import { useReducer } from 'react';
 import { Encounter } from '../interfaces/Encounter';
 
-const enum ActionType {
-  ADD_ENCOUNTER = 'ADD_ENCOUNTER',
-  DELETE_ENCOUNTER = 'DELETE_ENCOUNTER',
-}
+const ACTIONS = {
+  ADD_ENCOUNTER: 'ADD_ENCOUNTER',
+  DELETE_ENCOUNTER: 'DELETE_ENCOUNTER',
+} as const;
 
 type State = {
   encounters: Encounter[];
 };
 
-type Payload = Encounter | number;
+type Action =
+  | { type: typeof ACTIONS.ADD_ENCOUNTER; encounter: Encounter }
+  | { type: typeof ACTIONS.DELETE_ENCOUNTER; encounterId: number };
 
-type Action<T extends ActionType, P extends Payload> = {
-  type: T;
-  payload: P;
-};
-
-type Reducer<S extends State, A extends Action<ActionType, Payload>> = (
-  state: S,
-  action: A
-) => S;
-
-const reducer: Reducer<State, Action<ActionType, Payload>> = (
-  state,
-  action
-) => {
+const reducer = (state: State, action: Action) => {
   switch (action.type) {
-    case ActionType.ADD_ENCOUNTER:
-      return { encounters: [...state.encounters, action.payload as Encounter] };
+    case ACTIONS.ADD_ENCOUNTER:
+      return { encounters: [...state.encounters, action.encounter] };
 
-    case ActionType.DELETE_ENCOUNTER:
+    case ACTIONS.DELETE_ENCOUNTER:
       return {
         encounters: state.encounters.filter(
-          (encounter) => encounter.id !== (action.payload as number)
+          (encounter) => encounter.id !== action.encounterId
         ),
       };
 
@@ -42,24 +31,20 @@ const reducer: Reducer<State, Action<ActionType, Payload>> = (
   }
 };
 
-type EncounterUtilities = {
+export default function useEncounters(encounters: Encounter[]): {
   encounters: Encounter[];
   addEncounter: (encounter: Encounter) => void;
   deleteEncounter: (encounterId: number) => void;
-};
-
-export default function useEncounters(
-  encounters: Encounter[]
-): EncounterUtilities {
+} {
   const initialState: State = { encounters: [...encounters] };
   const [state, dispatch] = useReducer(reducer, initialState);
 
-  const addEncounter = (encounter: Encounter): void => {
-    dispatch({ type: ActionType.ADD_ENCOUNTER, payload: encounter });
+  const addEncounter = (encounter: Encounter) => {
+    dispatch({ type: ACTIONS.ADD_ENCOUNTER, encounter });
   };
 
-  const deleteEncounter = (encounterId: number): void => {
-    dispatch({ type: ActionType.DELETE_ENCOUNTER, payload: encounterId });
+  const deleteEncounter = (encounterId: number) => {
+    dispatch({ type: ACTIONS.DELETE_ENCOUNTER, encounterId });
   };
 
   return { encounters: state.encounters, addEncounter, deleteEncounter };

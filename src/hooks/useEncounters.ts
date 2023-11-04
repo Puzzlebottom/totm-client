@@ -1,64 +1,66 @@
 import { useReducer } from 'react';
 import { Encounter } from '../interfaces/Encounter';
 
-enum ActionType {
+const enum ActionType {
   ADD_ENCOUNTER = 'ADD_ENCOUNTER',
   DELETE_ENCOUNTER = 'DELETE_ENCOUNTER',
 }
 
-interface State {
+type State = {
   encounters: Encounter[];
-}
-
-interface Action {
-  type: ActionType;
-  payload: Encounter;
-}
-
-type Reducer = (state: State, action: Action) => State;
-
-const reducers: {
-  ADD_ENCOUNTER: Reducer;
-  DELETE_ENCOUNTER: Reducer;
-} = {
-  ADD_ENCOUNTER(state, action) {
-    return { encounters: [...state.encounters, action.payload] };
-  },
-  DELETE_ENCOUNTER(state, action) {
-    return {
-      encounters: state.encounters.filter(
-        (encounter) => encounter.id !== action.payload.id
-      ),
-    };
-  },
 };
 
-const reducer: Reducer = (state, action) => {
-  if (reducers[action.type]) {
-    return reducers[action.type](state, action);
+type Payload = Encounter | number;
+
+type Action<T extends ActionType, P extends Payload> = {
+  type: T;
+  payload: P;
+};
+
+type Reducer<S extends State, A extends Action<ActionType, Payload>> = (
+  state: S,
+  action: A
+) => S;
+
+const reducer: Reducer<State, Action<ActionType, Payload>> = (
+  state,
+  action
+) => {
+  switch (action.type) {
+    case ActionType.ADD_ENCOUNTER:
+      return { encounters: [...state.encounters, action.payload as Encounter] };
+
+    case ActionType.DELETE_ENCOUNTER:
+      return {
+        encounters: state.encounters.filter(
+          (encounter) => encounter.id !== (action.payload as number)
+        ),
+      };
+
+    default:
+      return state;
   }
-  return state;
 };
 
-interface EncounterUtilities {
+type EncounterUtilities = {
   encounters: Encounter[];
   addEncounter: (encounter: Encounter) => void;
-  deleteEncounter: (encounter: Encounter) => void;
-}
+  deleteEncounter: (encounterId: number) => void;
+};
 
 export default function useEncounters(
-  retrievedEncounters: Encounter[]
+  encounters: Encounter[]
 ): EncounterUtilities {
-  const initialState: State = { encounters: [...retrievedEncounters] };
+  const initialState: State = { encounters: [...encounters] };
   const [state, dispatch] = useReducer(reducer, initialState);
 
-  const { encounters } = state;
-  const addEncounter = (encounter: Encounter) => {
+  const addEncounter = (encounter: Encounter): void => {
     dispatch({ type: ActionType.ADD_ENCOUNTER, payload: encounter });
   };
-  const deleteEncounter = (encounter: Encounter) => {
-    dispatch({ type: ActionType.DELETE_ENCOUNTER, payload: encounter });
+
+  const deleteEncounter = (encounterId: number): void => {
+    dispatch({ type: ActionType.DELETE_ENCOUNTER, payload: encounterId });
   };
 
-  return { encounters, addEncounter, deleteEncounter };
+  return { encounters: state.encounters, addEncounter, deleteEncounter };
 }

@@ -6,7 +6,7 @@ import { Encounter } from '../interfaces/Encounter';
 interface EncounterUtilities {
   encounters: Encounter[];
   addEncounter: (encounter: Encounter) => void;
-  deleteEncounter: (encounter: Encounter) => void;
+  deleteEncounter: (encounterId: number) => void;
 }
 
 const encounterMock: Encounter = {
@@ -57,7 +57,7 @@ describe('useEncounters', () => {
       const selectedEncounter: Encounter = { ...encounterMock };
 
       const previousNumberOfEncounters = useEncountersData.encounters.length;
-      act(() => useEncountersData.deleteEncounter(selectedEncounter));
+      act(() => useEncountersData.deleteEncounter(selectedEncounter.id));
 
       expect(useEncountersData.encounters.length).toEqual(
         previousNumberOfEncounters - 1

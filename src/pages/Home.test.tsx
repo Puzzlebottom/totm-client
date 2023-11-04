@@ -10,6 +10,10 @@ describe('Home', () => {
     expect(screen.getAllByRole('article').length).toEqual(encounters.length);
   });
 
+  it.skip('should render the encounters from newest to oldest', () => {
+    render(<Home />);
+  });
+
   it.skip('should render a button to add new encounters', () => {
     render(<Home />);
   });

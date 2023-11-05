@@ -1,4 +1,12 @@
-import { Encounter } from '../interfaces/Encounter';
+/* eslint-disable jsx-a11y/no-autofocus */
+/* eslint-disable react/jsx-props-no-spreading */
+import { FieldValues, useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import {
+  Encounter,
+  encounterFormSchema,
+  EncounterFormData,
+} from '../interfaces/Encounter';
 import Modal from './Modal';
 
 type Props = {
@@ -15,7 +23,7 @@ const testEncounter: Encounter = {
   round: 0,
   turn: 0,
   owner: 0,
-  createdAt: Date.now() + 10,
+  createdAt: Date.now(),
 };
 
 export default function AddEncounterModal({
@@ -23,15 +31,56 @@ export default function AddEncounterModal({
   onSubmit,
   onClose,
 }: Props): React.ReactNode {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isSubmitting },
+    reset,
+  } = useForm<EncounterFormData>({
+    resolver: zodResolver(encounterFormSchema),
+  });
+
+  const submit = (data: FieldValues) => {
+    onSubmit({ ...testEncounter, ...data });
+    reset();
+    onClose();
+  };
+
   return (
     <Modal isOpen={isOpen} hasCloseBtn onClose={onClose}>
       <h3>Create New Encounter</h3>
-      <p>form goes here</p>
+      <form>
+        <label htmlFor="name">
+          <span>Name {errors.name && `${errors.name.message}`}</span>
+          <input
+            {...register('name')}
+            placeholder="Enter a name"
+            aria-invalid={errors.name ? 'true' : undefined}
+            autoComplete="off"
+            autoFocus={isOpen}
+          />
+        </label>
+        <label htmlFor="description">
+          <span>
+            Description {errors.description && `${errors.description.message}`}
+          </span>
+          <input
+            {...register('description')}
+            placeholder="Enter a description"
+            aria-invalid={errors.description ? 'true' : undefined}
+            autoComplete="off"
+          />
+        </label>
+      </form>
       <footer>
-        <button type="button" className="secondary">
+        <button type="button" className="secondary" onClick={onClose}>
           Cancel
         </button>
-        <button type="button" onClick={() => onSubmit(testEncounter)}>
+        <button
+          disabled={isSubmitting}
+          type="button"
+          onClick={handleSubmit(submit)}
+        >
           Create
         </button>
       </footer>

@@ -1,6 +1,9 @@
 import { Encounter } from '../interfaces/Encounter';
 
-const encounters: Encounter[] = [
+export const randomWithinWeek = () =>
+  Date.now() - Math.floor(Math.random() * (604800000 - 1));
+
+export const encounters: Encounter[] = [
   {
     id: 0,
     name: 'Amazing Encounter',
@@ -10,7 +13,7 @@ const encounters: Encounter[] = [
     round: 0,
     turn: 0,
     owner: 0,
-    createdAt: Date.now(),
+    createdAt: randomWithinWeek(),
   },
   {
     id: 1,
@@ -20,7 +23,7 @@ const encounters: Encounter[] = [
     round: 0,
     turn: 0,
     owner: 0,
-    createdAt: Date.now(),
+    createdAt: randomWithinWeek(),
   },
   {
     id: 2,
@@ -30,7 +33,7 @@ const encounters: Encounter[] = [
     round: 0,
     turn: 0,
     owner: 0,
-    createdAt: Date.now(),
+    createdAt: randomWithinWeek(),
   },
   {
     id: 3,
@@ -40,7 +43,7 @@ const encounters: Encounter[] = [
     round: 0,
     turn: 0,
     owner: 0,
-    createdAt: Date.now(),
+    createdAt: randomWithinWeek(),
   },
   {
     id: 4,
@@ -50,7 +53,7 @@ const encounters: Encounter[] = [
     round: 0,
     turn: 0,
     owner: 0,
-    createdAt: Date.now(),
+    createdAt: randomWithinWeek(),
   },
   {
     id: 5,
@@ -61,7 +64,7 @@ const encounters: Encounter[] = [
     round: 0,
     turn: 0,
     owner: 0,
-    createdAt: Date.now(),
+    createdAt: randomWithinWeek(),
   },
   {
     id: 6,
@@ -71,7 +74,7 @@ const encounters: Encounter[] = [
     round: 0,
     turn: 0,
     owner: 0,
-    createdAt: Date.now(),
+    createdAt: randomWithinWeek(),
   },
   {
     id: 7,
@@ -81,7 +84,7 @@ const encounters: Encounter[] = [
     round: 0,
     turn: 0,
     owner: 0,
-    createdAt: Date.now(),
+    createdAt: randomWithinWeek(),
   },
   {
     id: 8,
@@ -92,7 +95,7 @@ const encounters: Encounter[] = [
     round: 0,
     turn: 0,
     owner: 0,
-    createdAt: Date.now(),
+    createdAt: randomWithinWeek(),
   },
   {
     id: 9,
@@ -102,7 +105,7 @@ const encounters: Encounter[] = [
     round: 0,
     turn: 0,
     owner: 0,
-    createdAt: Date.now(),
+    createdAt: randomWithinWeek(),
   },
   {
     id: 10,
@@ -112,7 +115,7 @@ const encounters: Encounter[] = [
     round: 0,
     turn: 0,
     owner: 0,
-    createdAt: Date.now(),
+    createdAt: randomWithinWeek(),
   },
   {
     id: 11,
@@ -122,8 +125,6 @@ const encounters: Encounter[] = [
     round: 0,
     turn: 0,
     owner: 0,
-    createdAt: Date.now(),
+    createdAt: randomWithinWeek(),
   },
 ];
-
-export default encounters;

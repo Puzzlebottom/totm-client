@@ -1,7 +1,7 @@
 import { describe, it, expect, beforeAll, vi } from 'vitest';
 import { render, screen } from '@testing-library/react';
 import Home from './Home';
-import encounters from '../data/encounters';
+import { encounters } from '../data/encounters';
 
 // This is a work-around until jsDom implements HTMLDialogElement
 beforeAll(() => {

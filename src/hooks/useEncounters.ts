@@ -1,7 +1,11 @@
-import { useReducer } from 'react';
+import { useEffect, useReducer } from 'react';
+import { useQuery } from '@tanstack/react-query';
+
 import { Encounter } from '../interfaces/Encounter';
+import { getEncounters } from '../api/encounterRequests';
 
 const ACTIONS = {
+  SET_ENCOUNTERS: 'SET_ENCOUNTERS',
   ADD_ENCOUNTER: 'ADD_ENCOUNTER',
   DELETE_ENCOUNTER: 'DELETE_ENCOUNTER',
 } as const;
@@ -11,11 +15,15 @@ type State = {
 };
 
 type Action =
+  | { type: typeof ACTIONS.SET_ENCOUNTERS; encounters: Encounter[] }
   | { type: typeof ACTIONS.ADD_ENCOUNTER; encounter: Encounter }
   | { type: typeof ACTIONS.DELETE_ENCOUNTER; encounterId: number };
 
 const reducer = (state: State, action: Action) => {
   switch (action.type) {
+    case ACTIONS.SET_ENCOUNTERS:
+      return { encounters: action.encounters };
+
     case ACTIONS.ADD_ENCOUNTER:
       return { encounters: [...state.encounters, action.encounter] };
 
@@ -31,13 +39,17 @@ const reducer = (state: State, action: Action) => {
   }
 };
 
-export default function useEncounters(encounters: Encounter[]): {
+export default function useEncounters(): {
   encounters: Encounter[];
   addEncounter: (encounter: Encounter) => void;
   deleteEncounter: (encounterId: number) => void;
 } {
-  const initialState: State = { encounters: [...encounters] };
+  const initialState: State = { encounters: [] };
   const [state, dispatch] = useReducer(reducer, initialState);
+
+  const setEncounters = (encounters: Encounter[]) => {
+    dispatch({ type: ACTIONS.SET_ENCOUNTERS, encounters });
+  };
 
   const addEncounter = (encounter: Encounter) => {
     dispatch({ type: ACTIONS.ADD_ENCOUNTER, encounter });
@@ -46,6 +58,19 @@ export default function useEncounters(encounters: Encounter[]): {
   const deleteEncounter = (encounterId: number) => {
     dispatch({ type: ACTIONS.DELETE_ENCOUNTER, encounterId });
   };
+
+  const { isLoading, isError, data, error } = useQuery({
+    queryKey: ['encounters'],
+    queryFn: () => getEncounters(),
+  });
+
+  if (isLoading) console.log('LOADING');
+  if (isError) console.log(error.message);
+
+  useEffect(() => {
+    console.log('SETTING ENCOUNTERS');
+    if (data) setEncounters(data);
+  }, [data]);
 
   return { encounters: state.encounters, addEncounter, deleteEncounter };
 }

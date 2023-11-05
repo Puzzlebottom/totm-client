@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import '../styles/modal.css';
 
 type Props = {
@@ -47,7 +47,10 @@ export default function Modal({
   }, [isVisible]);
 
   return (
-    <dialog ref={modalRef} role="presentation" onKeyDown={handleKeyDown}>
+    // dialog is an interactive element and there's a patch coming down the pipes from eslint
+    // https://github.com/jsx-eslint/eslint-plugin-jsx-a11y/pull/940
+    // eslint-disable-next-line jsx-a11y/no-noninteractive-element-interactions
+    <dialog ref={modalRef} onKeyDown={handleKeyDown}>
       <article>
         {hasCloseBtn && (
           <button

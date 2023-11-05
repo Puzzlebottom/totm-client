@@ -5,11 +5,8 @@ import AddEncounterModal from '../components/AddEncounterModal';
 import useEncounters from '../hooks/useEncounters';
 import '../styles/home.css';
 
-import dummyEncounters from '../data/encounters';
-
 function Home() {
-  const { encounters, addEncounter, deleteEncounter } =
-    useEncounters(dummyEncounters);
+  const { encounters, addEncounter } = useEncounters();
 
   const [isAddEncounterModelOpen, setIsEncounterModalOpen] =
     useState<boolean>(false);
@@ -33,7 +30,7 @@ function Home() {
         <FaPlus />
       </button>
       {encounters
-        .sort((a, b) => a.createdAt - b.createdAt)
+        .sort((a, b) => b.createdAt - a.createdAt)
         .map((encounter) => (
           <article key={encounter.id}>
             <header>

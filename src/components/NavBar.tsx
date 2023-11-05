@@ -5,7 +5,7 @@ interface Props {
   links: string[];
 }
 
-export default function NavBar({ links }: Props) {
+export default function NavBar({ links }: Props): React.ReactNode {
   return (
     <nav>
       <h2>

@@ -27,7 +27,7 @@ button.add-encounter{
     height: 30%;
   }
 
-  &:hover {    
+  &:hover, &:focus {    
     cursor: pointer;
     background-color: var(--card-sectionning-background-color);
     box-shadow: var(--button-hover-box-shadow);

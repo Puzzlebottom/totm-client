@@ -1,4 +1,3 @@
-import axios from 'redaxios';
 import type { z } from 'zod';
 import { encounters } from '../data/encounters';
 
@@ -11,7 +10,7 @@ export enum HTTPStatusCode {
   OK = 200,
 }
 
-export default function useConnectAPI<Request, Response>({
+export default function api<Request, Response>({
   method,
   path,
   requestSchema,
@@ -25,24 +24,20 @@ export default function useConnectAPI<Request, Response>({
   return (requestData: Request) => {
     requestSchema.parse(requestData);
 
-    async function apiCall() {
-      // const response = await axios({
-      //   baseURL: process.env.API_URL,
-      //   method,
-      //   url: path,
-      //   [method === HTTPMethod.GET ? 'params' : 'data']: requestData,
-      // });
-
-      // return responseSchema.parse(response.data);
+    async function apiCall(): Promise<Response> {
+      const response = await fetch(path);
+      const data = await response.json();
+      const validatedEncounters = responseSchema.safeParse(data);
 
       // Sends local dummy until backend is built
-      const validatedEncounters = responseSchema.safeParse(encounters);
+      // const validatedEncounters = responseSchema.safeParse(encounters);
 
       if (!validatedEncounters.success) {
         console.log(validatedEncounters.error);
-        return [];
+        return new Promise((resolve) => {
+          resolve([] as Response);
+        });
       }
-
       return validatedEncounters.data;
     }
 

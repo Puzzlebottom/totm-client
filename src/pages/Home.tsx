@@ -23,8 +23,8 @@ function Home() {
     <main className="container">
       <button
         type="button"
+        aria-label="add encounter"
         className="add-encounter"
-        data-target="modal-add-encounter"
         onClick={handleOpenNewEncounterModal}
       >
         <FaPlus />

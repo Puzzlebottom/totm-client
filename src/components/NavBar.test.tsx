@@ -1,15 +1,15 @@
 import { describe, it, expect } from 'vitest';
 import { render, screen } from '@testing-library/react';
-import { BrowserRouter } from 'react-router-dom';
+import { HashRouter } from 'react-router-dom';
 import NavBar from './NavBar';
 
 describe('NavBar', () => {
   it('should render page links', () => {
     const links = ['heroes', 'monsters', 'locations', 'treasure'];
     render(
-      <BrowserRouter>
+      <HashRouter>
         <NavBar links={links} />
-      </BrowserRouter>
+      </HashRouter>
     );
 
     const [homepageLink, ...rest] = screen.getAllByRole('link');

@@ -11,7 +11,7 @@ export const getEncounters = api<
   z.infer<typeof GetEncountersResponse>
 >({
   method: HTTPMethod.GET,
-  path: '/encounters',
+  path: 'https://dummy/encounters',
   requestSchema: GetEncountersRequest,
   responseSchema: GetEncountersResponse,
 });

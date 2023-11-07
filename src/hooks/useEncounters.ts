@@ -68,8 +68,10 @@ export default function useEncounters(): {
   if (isError) console.log(error.message);
 
   useEffect(() => {
-    console.log('SETTING ENCOUNTERS');
-    if (data) setEncounters(data);
+    if (data) {
+      console.log('DATA');
+      setEncounters(data);
+    }
   }, [data]);
 
   return { encounters: state.encounters, addEncounter, deleteEncounter };

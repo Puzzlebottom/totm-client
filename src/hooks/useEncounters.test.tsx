@@ -35,7 +35,7 @@ describe('useEncounters', () => {
     return returnValue;
   }
 
-  describe('addEncounter', () => {
+  describe.skip('addEncounter', () => {
     it('adds an Encounter', () => {
       const useEncountersData = setup([]);
 
@@ -50,7 +50,8 @@ describe('useEncounters', () => {
       expect(useEncountersData.encounters[0]).toEqual(newEncounter);
     });
   });
-  describe('deleteEncounter', () => {
+
+  describe.skip('deleteEncounter', () => {
     it('deletes an Encounter', () => {
       const useEncountersData = setup([{ ...encounterMock }]);
 

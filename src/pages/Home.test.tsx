@@ -4,15 +4,19 @@ import { act, render, screen } from '@testing-library/react';
 
 import Home from './Home';
 
-describe('Home', () => {
+const setupTest = () => {
   const queryClient = new QueryClient();
 
+  render(
+    <QueryClientProvider client={queryClient}>
+      <Home />
+    </QueryClientProvider>
+  );
+};
+
+describe('Home', () => {
   it('should render an encounter search bar', async () => {
-    render(
-      <QueryClientProvider client={queryClient}>
-        <Home />
-      </QueryClientProvider>
-    );
+    setupTest();
 
     expect(
       await screen.findByRole('textbox', { name: 'search encounters' })
@@ -20,11 +24,7 @@ describe('Home', () => {
   });
 
   it('should render an Add Encounter button', async () => {
-    render(
-      <QueryClientProvider client={queryClient}>
-        <Home />
-      </QueryClientProvider>
-    );
+    setupTest();
 
     expect(
       await screen.findByRole('button', { name: 'add encounter' })
@@ -32,26 +32,15 @@ describe('Home', () => {
   });
 
   it('should render a list of encounters', async () => {
-    render(
-      <QueryClientProvider client={queryClient}>
-        <Home />
-      </QueryClientProvider>
-    );
+    setupTest();
 
     expect(
-      await screen.findByRole('form', {
-        name: 'Create New Encounter',
-        hidden: true,
-      })
-    ).toBeInTheDocument();
+      await screen.findAllByRole('article', { name: 'encounter' })
+    ).toHaveLength(3);
   });
 
   it('should render an Add Encounter modal', async () => {
-    render(
-      <QueryClientProvider client={queryClient}>
-        <Home />
-      </QueryClientProvider>
-    );
+    setupTest();
 
     expect(
       await screen.findByRole('form', {
@@ -61,9 +50,27 @@ describe('Home', () => {
     ).toBeInTheDocument();
   });
 
-  it('should render a Select Encounter modal', () => { });
+  it('should render a Select Encounter modal', async () => {
+    setupTest();
 
-  it('should render an Edit Encounter modal', () => { });
+    expect(
+      await screen.findByRole('form', {
+        name: 'Select Encounter Form',
+        hidden: true,
+      })
+    ).toBeInTheDocument();
+  });
+
+  it('should render an Edit Encounter modal', async () => {
+    setupTest();
+
+    expect(
+      await screen.findByRole('form', {
+        name: 'Edit Encounter Form',
+        hidden: true,
+      })
+    ).toBeInTheDocument();
+  });
 
   describe('Encounter search bar', () => {
     it('should autocomplete user input based on current encounters', () => { });
@@ -89,11 +96,7 @@ describe('Home', () => {
     it('should update edited encounters', () => { });
 
     it('should render the encounters from newest to oldest', async () => {
-      render(
-        <QueryClientProvider client={queryClient}>
-          <Home />
-        </QueryClientProvider>
-      );
+      setupTest();
 
       expect(await screen.findAllByRole('article'));
     });

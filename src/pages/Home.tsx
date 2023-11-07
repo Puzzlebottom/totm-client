@@ -37,7 +37,7 @@ function Home() {
       {encounters
         .sort((a, b) => b.createdAt - a.createdAt)
         .map((encounter) => (
-          <article key={encounter.id}>
+          <article key={encounter.id} aria-label="encounter">
             <header>
               <strong>{encounter.name}</strong>
             </header>

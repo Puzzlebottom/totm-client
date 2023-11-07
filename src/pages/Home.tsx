@@ -4,6 +4,7 @@ import { FaPlus } from 'react-icons/fa';
 import AddEncounterModal from '../components/AddEncounterModal';
 import useEncounters from '../hooks/useEncounters';
 import '../styles/home.css';
+import EncounterSearchBar from '../components/EncounterSearchBar';
 
 function Home() {
   const { encounters, addEncounter } = useEncounters();
@@ -21,6 +22,10 @@ function Home() {
 
   return (
     <main className="container">
+      <EncounterSearchBar
+        data={encounters}
+        callback={(result) => console.log(result)}
+      />
       <button
         type="button"
         aria-label="add encounter"

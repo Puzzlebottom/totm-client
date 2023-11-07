@@ -49,7 +49,7 @@ export default function AddEncounterModal({
   return (
     <Modal isOpen={isOpen} hasCloseBtn onClose={onClose}>
       <h3>Create New Encounter</h3>
-      <form>
+      <form aria-label="New Encounter Form">
         <label htmlFor="name">
           <span>Name {errors.name && `${errors.name.message}`}</span>
           <input

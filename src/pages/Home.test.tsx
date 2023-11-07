@@ -7,7 +7,17 @@ import Home from './Home';
 describe('Home', () => {
   const queryClient = new QueryClient();
 
-  it('should render an encounter search bar', () => { });
+  it('should render an encounter search bar', async () => {
+    render(
+      <QueryClientProvider client={queryClient}>
+        <Home />
+      </QueryClientProvider>
+    );
+
+    expect(
+      await screen.findByRole('textbox', { name: 'search encounters' })
+    ).toBeInTheDocument();
+  });
 
   it('should render an Add Encounter button', async () => {
     render(
@@ -28,10 +38,28 @@ describe('Home', () => {
       </QueryClientProvider>
     );
 
-    expect(await screen.findAllByRole('article')).toHaveLength(3);
+    expect(
+      await screen.findByRole('form', {
+        name: 'Create New Encounter',
+        hidden: true,
+      })
+    ).toBeInTheDocument();
   });
 
-  it('should render an Add Encounter modal', () => { });
+  it('should render an Add Encounter modal', async () => {
+    render(
+      <QueryClientProvider client={queryClient}>
+        <Home />
+      </QueryClientProvider>
+    );
+
+    expect(
+      await screen.findByRole('form', {
+        name: 'New Encounter Form',
+        hidden: true,
+      })
+    ).toBeInTheDocument();
+  });
 
   it('should render a Select Encounter modal', () => { });
 

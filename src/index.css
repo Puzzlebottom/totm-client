@@ -1,0 +1,9 @@
+button.warning {
+  background-color: darkred;
+  border-color: darkred;
+
+  &:hover {
+    background-color: red;
+    border-color: red;
+  }
+}

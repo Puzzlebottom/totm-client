@@ -18,9 +18,15 @@ describe('Home', () => {
   it('should render an encounter search bar', async () => {
     setupTest();
 
-    expect(
-      await screen.findByRole('textbox', { name: 'search encounters' })
-    ).toBeInTheDocument();
+    const searchForm = await screen.findByRole('form', {
+      name: 'encounter search form',
+    });
+    const searchInput = await screen.findByRole('textbox', {
+      name: 'encounter search input',
+    });
+
+    expect(searchForm).toBeInTheDocument();
+    expect(searchForm).toContainElement(searchInput);
   });
 
   it('should render an Add Encounter button', async () => {
@@ -35,7 +41,7 @@ describe('Home', () => {
     setupTest();
 
     expect(
-      await screen.findAllByRole('article', { name: 'encounter' })
+      await screen.findAllByRole('button', { name: 'encounter card' })
     ).toHaveLength(3);
   });
 
@@ -115,9 +121,11 @@ describe('Home', () => {
 
     it('should contain a cancel button that hides the modal', () => { });
 
-    it('should contain a submit button', () => { });
+    it('should close if the cancel button us clicked', () => { });
 
     it('should contain text inputs for name and description', () => { });
+
+    it('should contain a submit button', () => { });
 
     it('should close it the submit button is clicked while the fields contain valid input', () => { });
 
@@ -129,23 +137,21 @@ describe('Home', () => {
 
     it('should have a close button that hides the modal', () => { });
 
-    it('should have buttons to delete, edit and run the encounter', () => { });
+    it('should have a delete button', () => { });
 
-    describe('Delete encounter button', () => {
-      it('should open a confirmation dialog when clicked', () => { });
+    it('the delete button should open a confirmation dialog when clicked', () => { });
 
-      it('should delete the encounter', () => { });
-    });
+    it('the delete button should delete the encounter after confirmation', () => { });
 
-    describe('Edit encounter button', () => {
-      it('should open the Edit encounter Modal when clicked', () => { });
-    });
+    it('should have an edit button');
 
-    describe('Run encounter button', () => {
-      it('should set the encounter as Active Encounter', () => { });
+    it('the edit button should open the Edit encounter Modal when clicked', () => { });
 
-      it('should navigate to the Encounter Runner page', () => { });
-    });
+    it('should have a run button', () => { });
+
+    it('the run button should set the encounter as Selected Encounter', () => { });
+
+    it('the run button should navigate to the Encounter Runner page', () => { });
   });
 
   describe.skip('Edit Encounter Modal', () => {

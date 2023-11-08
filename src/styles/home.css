@@ -1,6 +1,6 @@
 main {
   padding: 2em;
-  padding-top: 5em;
+  padding-top: 6em;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   grid-template-rows: repeat(auto-fill);
@@ -11,15 +11,24 @@ main {
     transform: scale(1.02);
     box-shadow: var(--card-box-shadow);
   }
+
+  >form {
+    grid-column: 1 / 4;
+    margin-bottom: 0;
+
+    >input.encounter-search {
+      margin-bottom: 0;
+    }
+  }
+
 }
 
-
-button.add-encounter{
+button.add-encounter {
   text-align: center;
   background-color: var(--card-background-color);
   margin: var(--block-spacing-vertical) 0;
   padding: var(--block-spacing-vertical) var(--block-spacing-horizontal);
-  box-shadow: var(--button-box-shadow);
+  box-shadow: var(--card-box-shadow);
   border: none;
   >svg {
     fill: var(--secondary);
@@ -29,11 +38,49 @@ button.add-encounter{
 
   &:hover, &:focus {    
     cursor: pointer;
-    background-color: var(--card-sectionning-background-color);
-    box-shadow: var(--button-hover-box-shadow);
+    box-shadow: var(--card-box-shadow);
     transform: scale(1.02);
     >svg {
       fill: var(--primary);
     }
   }
+}
+
+button.encounter-card {
+  margin: var(--block-spacing-vertical) 0;
+  padding: var(--block-spacing-vertical) var(--block-spacing-horizontal);
+  border-radius: var(--border-radius);
+  background: var(--card-background-color);
+  box-shadow: var(--card-box-shadow);
+  color: hsl(205, 16%, 77%);
+  font-weight: var(--font-weight);
+  font-size: var(--font-size);
+  line-height: var(--line-height);
+  overflow-wrap: break-word;
+  cursor: default;
+  border: none;
+
+  >header, >footer {
+    margin-top: calc(var(--block-spacing-vertical) * -1);
+    margin-bottom: var(--block-spacing-vertical);
+    border-bottom: var(--border-width) solid var(--card-border-color);
+    border-top-right-radius: var(--border-radius);
+    border-top-left-radius: var(--border-radius);
+    margin-right: calc(var(--block-spacing-horizontal) * -1);
+    margin-left: calc(var(--block-spacing-horizontal) * -1);
+    padding: calc(var(--block-spacing-vertical) * .66) var(--block-spacing-horizontal);
+    background-color: var(--card-sectionning-background-color);
+  }
+
+  &:hover, &:focus {    
+    cursor: pointer;
+    box-shadow: var(--card-box-shadow);
+    transform: scale(1.02);
+    color: var(--primary)
+  }
+
+  >p {
+    color: hsl(205, 16%, 77%);
+  }
+
 }

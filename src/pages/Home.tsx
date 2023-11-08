@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { FaPlus } from 'react-icons/fa';
 
 import AddEncounterModal from '../components/AddEncounterModal';
@@ -56,12 +56,15 @@ function Home() {
     handleOpenSelectEncounterModal();
   };
 
+  const filterEncounters = (filtered: Encounter[]) => {
+    if (encounters.length === 1) {
+      handleSelectEncounter(filtered[0]);
+    }
+  };
+
   return (
     <main className="container">
-      <EncounterSearchBar
-        data={encounters}
-        callback={(result) => console.log(result)}
-      />
+      <EncounterSearchBar data={encounters} callback={filterEncounters} />
       <button
         type="button"
         aria-label="add encounter"
@@ -73,17 +76,18 @@ function Home() {
       {encounters
         .sort((a, b) => b.createdAt - a.createdAt)
         .map((encounter) => (
-          <article key={encounter.id} aria-label="encounter">
-            <button
-              type="button"
-              onClick={() => handleSelectEncounter(encounter)}
-            >
-              <header>
-                <strong>{encounter.name}</strong>
-              </header>
-              <p>{encounter.description}</p>
-            </button>
-          </article>
+          <button
+            type="button"
+            key={encounter.id}
+            className="encounter-card"
+            aria-label="encounter card"
+            onClick={() => handleSelectEncounter(encounter)}
+          >
+            <header>
+              <strong>{encounter.name}</strong>
+            </header>
+            <p>{encounter.description}</p>
+          </button>
         ))}
       <AddEncounterModal
         isOpen={isAddEncounterModelOpen}

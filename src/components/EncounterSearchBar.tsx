@@ -28,13 +28,14 @@ export default function EncounterSearchBar({ data, callback }: Props) {
   };
 
   return (
-    <form onSubmit={handleSearch}>
+    <form onSubmit={handleSearch} aria-label="encounter search form">
       <input
         type="text"
         value={searchValue}
-        placeholder="Search encounters"
+        placeholder="Search encounter by name..."
         onChange={handleChange}
-        aria-label="search encounters"
+        className="encounter-search"
+        aria-label="encounter search input"
       />
     </form>
   );

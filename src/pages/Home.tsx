@@ -3,61 +3,38 @@ import { FaPlus } from 'react-icons/fa';
 
 import AddEncounterModal from '../components/AddEncounterModal';
 import useEncounters from '../hooks/useEncounters';
+import useModal from '../hooks/usemodal';
 import EncounterSearchBar from '../components/EncounterSearchBar';
 import SelectEncounterModal from '../components/SelectEncounterModal';
 import { Encounter } from '../interfaces/Encounter';
 import EditEncounterModal from '../components/EditEncounterModal';
 
 function Home() {
-  const { encounters, addEncounter, editEncounter, deleteEncounter } =
+  const { encounters, addEncounter, updateEncounter, deleteEncounter } =
     useEncounters();
+
+  const [isAddModalOpen, openAddModal, closeAddModal] = useModal(false);
+  const [isEditModalOpen, openEditModal, closeEditModal] = useModal(false);
+  const [isSelectModalOpen, openSelectModal, closeSelectModal] =
+    useModal(false);
 
   const [selectedEncounter, setSelectedEncounter] = useState<Encounter | null>(
     null
   );
 
-  const [isAddEncounterModelOpen, setIsAddEncounterModalOpen] =
-    useState<boolean>(false);
-
-  const handleOpenNewEncounterModal = () => {
-    setIsAddEncounterModalOpen(true);
+  const editEncounter = () => {
+    closeSelectModal();
+    openEditModal();
   };
 
-  const handleCloseNewEncounterModal = () => {
-    setIsAddEncounterModalOpen(false);
-  };
-
-  const [isSelectEncounterModalOpen, setIsSelectEncounterModalOpen] =
-    useState<boolean>(false);
-
-  const handleOpenSelectEncounterModal = () => {
-    setIsSelectEncounterModalOpen(true);
-  };
-
-  const handleCloseSelectEncounterModal = () => {
-    setIsSelectEncounterModalOpen(false);
-  };
-
-  const [isEditEncounterModalOpen, setIsEditEncounterModalOpen] =
-    useState<boolean>(false);
-
-  const handleOpenEditEncounterModal = () => {
-    setIsSelectEncounterModalOpen(false);
-    setIsEditEncounterModalOpen(true);
-  };
-
-  const handleCloseEditEncounterModal = () => {
-    setIsEditEncounterModalOpen(false);
-  };
-
-  const handleSelectEncounter = (encounter: Encounter) => {
+  const selectEncounter = (encounter: Encounter) => {
     setSelectedEncounter(encounter);
-    handleOpenSelectEncounterModal();
+    openSelectModal();
   };
 
   const filterEncounters = (filtered: Encounter[]) => {
     if (encounters.length === 1) {
-      handleSelectEncounter(filtered[0]);
+      selectEncounter(filtered[0]);
     }
   };
 
@@ -68,7 +45,7 @@ function Home() {
         type="button"
         aria-label="add encounter"
         className="add-encounter"
-        onClick={handleOpenNewEncounterModal}
+        onClick={openAddModal}
       >
         <FaPlus />
       </button>
@@ -80,7 +57,7 @@ function Home() {
             key={encounter.id}
             className="encounter-card"
             aria-label="encounter card"
-            onClick={() => handleSelectEncounter(encounter)}
+            onClick={() => selectEncounter(encounter)}
           >
             <header>
               <strong>{encounter.name}</strong>
@@ -89,23 +66,23 @@ function Home() {
           </button>
         ))}
       <AddEncounterModal
-        isOpen={isAddEncounterModelOpen}
+        isOpen={isAddModalOpen}
         onSubmit={addEncounter}
-        onClose={handleCloseNewEncounterModal}
+        onClose={closeAddModal}
       />
       <SelectEncounterModal
         encounter={selectedEncounter}
-        isOpen={isSelectEncounterModalOpen}
+        isOpen={isSelectModalOpen}
         deleteEncounter={deleteEncounter}
-        editEncounter={handleOpenEditEncounterModal}
+        editEncounter={editEncounter}
         runEncounter={() => console.log('run')}
-        onClose={handleCloseSelectEncounterModal}
+        onClose={closeSelectModal}
       />
       <EditEncounterModal
         encounter={selectedEncounter}
-        isOpen={isEditEncounterModalOpen}
-        onSubmit={editEncounter}
-        onClose={handleCloseEditEncounterModal}
+        isOpen={isEditModalOpen}
+        onSubmit={updateEncounter}
+        onClose={closeEditModal}
       />
     </main>
   );

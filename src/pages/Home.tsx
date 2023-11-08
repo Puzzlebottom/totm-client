@@ -1,9 +1,8 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { FaPlus } from 'react-icons/fa';
 
 import AddEncounterModal from '../components/AddEncounterModal';
 import useEncounters from '../hooks/useEncounters';
-import '../styles/home.css';
 import EncounterSearchBar from '../components/EncounterSearchBar';
 import SelectEncounterModal from '../components/SelectEncounterModal';
 import { Encounter } from '../interfaces/Encounter';

@@ -2,6 +2,7 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import { FieldValues, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { uuidv4 } from 'uuid';
 import {
   Encounter,
   encounterFormSchema,

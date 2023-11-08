@@ -7,6 +7,7 @@ import { getEncounters } from '../api/encounterRequests';
 const ACTIONS = {
   SET_ENCOUNTERS: 'SET_ENCOUNTERS',
   ADD_ENCOUNTER: 'ADD_ENCOUNTER',
+  EDIT_ENCOUNTER: 'EDIT_ENCOUNTER',
   DELETE_ENCOUNTER: 'DELETE_ENCOUNTER',
 } as const;
 
@@ -17,6 +18,7 @@ type State = {
 type Action =
   | { type: typeof ACTIONS.SET_ENCOUNTERS; encounters: Encounter[] }
   | { type: typeof ACTIONS.ADD_ENCOUNTER; encounter: Encounter }
+  | { type: typeof ACTIONS.EDIT_ENCOUNTER; encounter: Encounter }
   | { type: typeof ACTIONS.DELETE_ENCOUNTER; encounterId: number };
 
 const reducer = (state: State, action: Action) => {
@@ -26,6 +28,16 @@ const reducer = (state: State, action: Action) => {
 
     case ACTIONS.ADD_ENCOUNTER:
       return { encounters: [...state.encounters, action.encounter] };
+
+    case ACTIONS.EDIT_ENCOUNTER:
+      return {
+        encounters: [
+          ...state.encounters.filter(
+            (encounter) => encounter.id !== action.encounter.id
+          ),
+          action.encounter,
+        ],
+      };
 
     case ACTIONS.DELETE_ENCOUNTER:
       return {
@@ -42,6 +54,7 @@ const reducer = (state: State, action: Action) => {
 export default function useEncounters(): {
   encounters: Encounter[];
   addEncounter: (encounter: Encounter) => void;
+  editEncounter: (encounter: Encounter) => void;
   deleteEncounter: (encounterId: number) => void;
 } {
   const initialState: State = { encounters: [] };
@@ -53,6 +66,10 @@ export default function useEncounters(): {
 
   const addEncounter = (encounter: Encounter) => {
     dispatch({ type: ACTIONS.ADD_ENCOUNTER, encounter });
+  };
+
+  const editEncounter = (encounter: Encounter) => {
+    dispatch({ type: ACTIONS.EDIT_ENCOUNTER, encounter });
   };
 
   const deleteEncounter = (encounterId: number) => {
@@ -69,10 +86,14 @@ export default function useEncounters(): {
 
   useEffect(() => {
     if (data) {
-      console.log('DATA');
       setEncounters(data);
     }
   }, [data]);
 
-  return { encounters: state.encounters, addEncounter, deleteEncounter };
+  return {
+    encounters: state.encounters,
+    addEncounter,
+    editEncounter,
+    deleteEncounter,
+  };
 }

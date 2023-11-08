@@ -45,10 +45,12 @@ export default function AddEncounterModal({
   };
 
   useEffect(() => {
-    reset({
-      name: encounter?.name,
-      description: encounter?.description,
-    });
+    if (encounter) {
+      reset({
+        name: encounter.name,
+        description: encounter.description,
+      });
+    }
   }, [encounter, reset]);
 
   return (

@@ -10,7 +10,8 @@ import { Encounter } from '../interfaces/Encounter';
 import EditEncounterModal from '../components/EditEncounterModal';
 
 function Home() {
-  const { encounters, addEncounter, deleteEncounter } = useEncounters();
+  const { encounters, addEncounter, editEncounter, deleteEncounter } =
+    useEncounters();
 
   const [selectedEncounter, setSelectedEncounter] = useState<Encounter | null>(
     null
@@ -52,7 +53,7 @@ function Home() {
 
   const handleSelectEncounter = (encounter: Encounter) => {
     setSelectedEncounter(encounter);
-    setIsSelectEncounterModalOpen(true);
+    handleOpenSelectEncounterModal();
   };
 
   return (
@@ -100,7 +101,7 @@ function Home() {
       <EditEncounterModal
         encounter={selectedEncounter}
         isOpen={isEditEncounterModalOpen}
-        onSubmit={() => console.log('update')}
+        onSubmit={editEncounter}
         onClose={handleCloseEditEncounterModal}
       />
     </main>

@@ -7,6 +7,7 @@ import '../styles/home.css';
 import EncounterSearchBar from '../components/EncounterSearchBar';
 import SelectEncounterModal from '../components/SelectEncounterModal';
 import { Encounter } from '../interfaces/Encounter';
+import EditEncounterModal from '../components/EditEncounterModal';
 
 function Home() {
   const { encounters, addEncounter, deleteEncounter } = useEncounters();
@@ -35,6 +36,18 @@ function Home() {
 
   const handleCloseSelectEncounterModal = () => {
     setIsSelectEncounterModalOpen(false);
+  };
+
+  const [isEditEncounterModalOpen, setIsEditEncounterModalOpen] =
+    useState<boolean>(false);
+
+  const handleOpenEditEncounterModal = () => {
+    setIsSelectEncounterModalOpen(false);
+    setIsEditEncounterModalOpen(true);
+  };
+
+  const handleCloseEditEncounterModal = () => {
+    setIsEditEncounterModalOpen(false);
   };
 
   const handleSelectEncounter = (encounter: Encounter) => {
@@ -80,9 +93,15 @@ function Home() {
         encounter={selectedEncounter}
         isOpen={isSelectEncounterModalOpen}
         deleteEncounter={deleteEncounter}
-        editEncounter={() => console.log('edit')}
+        editEncounter={handleOpenEditEncounterModal}
         runEncounter={() => console.log('run')}
         onClose={handleCloseSelectEncounterModal}
+      />
+      <EditEncounterModal
+        encounter={selectedEncounter}
+        isOpen={isEditEncounterModalOpen}
+        onSubmit={() => console.log('update')}
+        onClose={handleCloseEditEncounterModal}
       />
     </main>
   );

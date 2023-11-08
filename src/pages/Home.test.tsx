@@ -72,7 +72,7 @@ describe('Home', () => {
     ).toBeInTheDocument();
   });
 
-  describe('Encounter search bar', () => {
+  describe.skip('Encounter search bar', () => {
     it('should autocomplete user input based on current encounters', () => { });
 
     it('should open the Select Encounter modal when an existing encounter name is submitted', () => { });
@@ -82,11 +82,11 @@ describe('Home', () => {
     it('should render text that a name is required when submitted with no input', () => { });
   });
 
-  describe('Add Encounter button', async () => {
+  describe.skip('Add Encounter button', async () => {
     it('should open the add encounter modal when clicked', () => { });
   });
 
-  describe('Encounter List', () => {
+  describe.skip('Encounter List', () => {
     it('should render the encounter cards', () => { });
 
     it('should add new encounters', () => { });
@@ -108,7 +108,7 @@ describe('Home', () => {
     });
   });
 
-  describe('Add Encounter modal', async () => {
+  describe.skip('Add Encounter modal', async () => {
     it('should be hidden by default', () => { });
 
     it('should contain a close button that hides the modal', () => { });
@@ -124,7 +124,7 @@ describe('Home', () => {
     it('should not close if the submit button clicked while the fields contain invalid input', () => { });
   });
 
-  describe('Select Encounter Modal', () => {
+  describe.skip('Select Encounter Modal', () => {
     it('should be hidden by default', () => { });
 
     it('should have a close button that hides the modal', () => { });
@@ -148,7 +148,7 @@ describe('Home', () => {
     });
   });
 
-  describe('Edit Encounter Modal', () => {
+  describe.skip('Edit Encounter Modal', () => {
     it('should be hidden by default', () => { });
 
     it('should have a close button that hides the modal', () => { });

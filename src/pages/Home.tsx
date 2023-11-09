@@ -54,10 +54,10 @@ function Home() {
         .map((encounter) => (
           <button
             type="button"
-            key={encounter.id}
-            className="encounter-card"
             aria-label="encounter card"
+            className="encounter-card"
             onClick={() => selectEncounter(encounter)}
+            key={encounter.id}
           >
             <header>
               <strong>{encounter.name}</strong>

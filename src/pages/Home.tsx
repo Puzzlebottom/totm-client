@@ -1,13 +1,13 @@
 import { useState } from 'react';
 import { FaPlus } from 'react-icons/fa';
 
-import AddEncounterModal from '../components/AddEncounterModal';
-import useEncounters from '../hooks/useEncounters';
-import useModal from '../hooks/usemodal';
-import EncounterSearchBar from '../components/EncounterSearchBar';
-import SelectEncounterModal from '../components/SelectEncounterModal';
 import { Encounter } from '../interfaces/Encounter';
+import useEncounters from '../hooks/useEncounters';
+import EncounterSearchBar from '../components/EncounterSearchBar';
+import useModal from '../hooks/useModal';
+import AddEncounterModal from '../components/AddEncounterModal';
 import EditEncounterModal from '../components/EditEncounterModal';
+import SelectEncounterModal from '../components/SelectEncounterModal';
 
 function Home() {
   const { encounters, addEncounter, updateEncounter, deleteEncounter } =

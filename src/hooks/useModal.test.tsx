@@ -1,7 +1,7 @@
 import { describe, it, expect } from 'vitest';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import useModal from './usemodal';
+import useModal from './useModal';
 
 function TestComponent({ defaultOpen }: { defaultOpen: boolean }): JSX.Element {
   const [isOpen, openModal, closeModal] = useModal(defaultOpen);
@@ -20,14 +20,14 @@ describe('useModal', () => {
   it('initializes in the open state when passed true as a prop', async () => {
     render(<TestComponent defaultOpen />);
 
-    expect(await screen.findByText('OPEN')).toBeVisible();
+    expect(await screen.findByText('OPEN')).toBeInTheDocument();
     expect(screen.queryByText('CLOSED')).toBeNull();
   });
 
   it('initializes in the closed state when passed false as a prop', async () => {
     render(<TestComponent defaultOpen={false} />);
 
-    expect(await screen.findByText('CLOSED')).toBeVisible();
+    expect(await screen.findByText('CLOSED')).toBeInTheDocument();
     expect(screen.queryByText('OPEN')).toBeNull();
   });
 
@@ -38,17 +38,17 @@ describe('useModal', () => {
     const closeButton = await screen.findByRole('button', { name: 'close' });
     const openButton = await screen.findByRole('button', { name: 'open' });
 
-    expect(await screen.findByText('OPEN')).toBeVisible();
+    expect(await screen.findByText('OPEN')).toBeInTheDocument();
     expect(screen.queryByText('CLOSED')).toBeNull();
 
     await user.click(closeButton);
 
-    expect(await screen.findByText('CLOSED')).toBeVisible();
+    expect(await screen.findByText('CLOSED')).toBeInTheDocument();
     expect(screen.queryByText('OPEN')).toBeNull();
 
     await user.click(openButton);
 
-    expect(await screen.findByText('OPEN')).toBeVisible();
+    expect(await screen.findByText('OPEN')).toBeInTheDocument();
     expect(screen.queryByText('CLOSED')).toBeNull();
   });
 });

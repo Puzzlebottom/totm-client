@@ -15,7 +15,7 @@ const setupTest = () => {
 
 describe('Add Encounter modal', () => {
   afterEach(() => {
-    vi.clearAllMocks();
+    vi.restoreAllMocks();
   });
 
   it('should have a close button that calls the onClose function when clicked', async () => {

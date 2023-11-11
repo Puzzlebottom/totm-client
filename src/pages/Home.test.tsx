@@ -2,6 +2,7 @@ import { describe, it, expect } from 'vitest';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { render, screen } from '@testing-library/react';
 
+import userEvent from '@testing-library/user-event';
 import Home from './Home';
 
 const setupTest = () => {
@@ -90,8 +91,20 @@ describe('Home', () => {
     it('should render text that a name is required when submitted with no input', () => { });
   });
 
-  describe.skip('Add Encounter button', async () => {
-    it('should open the add encounter modal when clicked', () => { });
+  describe('Add Encounter button', async () => {
+    it('should open the add encounter modal when clicked', async () => {
+      setupTest();
+      const user = userEvent.setup();
+
+      const addEncounterButton = await screen.findByLabelText('add encounter');
+      const addEncounterModal = await screen.findByText('Create New Encounter');
+
+      expect(addEncounterModal).not.toBeVisible();
+
+      await user.click(addEncounterButton);
+
+      expect(addEncounterModal).toBeVisible();
+    });
   });
 
   describe.skip('Encounter List', () => {

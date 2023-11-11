@@ -9,9 +9,24 @@ expect.extend(matchers);
 const queryCache = new QueryCache();
 
 beforeAll(() => {
-  HTMLDialogElement.prototype.show = vi.fn();
-  HTMLDialogElement.prototype.showModal = vi.fn();
-  HTMLDialogElement.prototype.close = vi.fn();
+  HTMLDialogElement.prototype.show = vi.fn(function mock(
+    this: HTMLDialogElement
+  ) {
+    this.open = true;
+  });
+
+  HTMLDialogElement.prototype.showModal = vi.fn(function mock(
+    this: HTMLDialogElement
+  ) {
+    this.open = true;
+  });
+
+  HTMLDialogElement.prototype.close = vi.fn(function mock(
+    this: HTMLDialogElement
+  ) {
+    this.open = false;
+  });
+
   server.listen({ onUnhandledRequest: 'error' });
 });
 

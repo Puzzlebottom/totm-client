@@ -19,12 +19,12 @@ export default function NavBar({ links }: Props): React.ReactNode {
       </ul>
       <ul>
         <li>
-          <button type="button" className="outline">
+          <button type="button" aria-label="login" className="outline">
             Login
           </button>
         </li>
         <li>
-          <button type="button" className="outline">
+          <button type="button" aria-label="register" className="outline">
             Register
           </button>
         </li>

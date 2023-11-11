@@ -54,7 +54,7 @@ export default function Modal({
         {hasCloseBtn && (
           <button
             type="button"
-            aria-label="Close"
+            aria-label="close"
             className="close"
             onClick={handleCloseModal}
           />

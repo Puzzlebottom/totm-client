@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { act, render, screen } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 
 import Home from './Home';
 
@@ -78,6 +78,8 @@ describe('Home', () => {
     ).toBeInTheDocument();
   });
 
+  it('should hide all modals by default', () => { });
+
   describe.skip('Encounter search bar', () => {
     it('should autocomplete user input based on current encounters', () => { });
 
@@ -112,24 +114,6 @@ describe('Home', () => {
 
       it('should open the Select Encounter modal when clicked', () => { });
     });
-  });
-
-  describe.skip('Add Encounter modal', async () => {
-    it('should be hidden by default', () => { });
-
-    it('should contain a close button that hides the modal', () => { });
-
-    it('should contain a cancel button that hides the modal', () => { });
-
-    it('should close if the cancel button us clicked', () => { });
-
-    it('should contain text inputs for name and description', () => { });
-
-    it('should contain a submit button', () => { });
-
-    it('should close it the submit button is clicked while the fields contain valid input', () => { });
-
-    it('should not close if the submit button clicked while the fields contain invalid input', () => { });
   });
 
   describe.skip('Select Encounter Modal', () => {

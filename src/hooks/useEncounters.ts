@@ -81,8 +81,8 @@ export default function useEncounters(): {
     queryFn: () => getEncounters(),
   });
 
-  if (isLoading) console.log('LOADING');
-  if (isError) console.log(error.message);
+  // if (isLoading) console.log('LOADING');
+  // if (isError) console.log(error.message);
 
   useEffect(() => {
     if (data) {

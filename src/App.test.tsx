@@ -1,24 +1,35 @@
-import { describe, it, expect } from 'vitest';
+import { describe, it, expect, vi } from 'vitest';
 import { render, screen } from '@testing-library/react';
 
-import { HashRouter } from 'react-router-dom';
-
+import { HashRouter, MemoryRouter } from 'react-router-dom';
+import { afterEach } from 'node:test';
 import { WrappedApp, App } from './App';
 
-describe.skip('App', () => {
-  it.skip('renders the app and displays it', () => {
-    render(<WrappedApp />);
+const mockHome = vi.fn(() => {
+  <div aria-label="Mock Home Component" />;
+});
+
+vi.mock('./pages/Home.tsx', () => ({ default: () => mockHome() }));
+
+describe('App', () => {
+  afterEach(() => {
+    vi.restoreAllMocks();
   });
 
-  it('Renders not found if path is invalid', () => {
+  it('renders the app and displays it', async () => {
+    render(<WrappedApp />);
+
+    expect(mockHome).toBeCalled();
+  });
+
+  it('Renders not found if path is invalid', async () => {
     render(
-      <HashRouter>
+      <MemoryRouter initialEntries={['/non-existent-route']}>
         <App />
-      </HashRouter>
+      </MemoryRouter>
     );
 
-    expect(screen.getByRole('heading', { level: 1 })).toHaveTextContent(
-      'Not Found'
-    );
+    expect(mockHome).toBeCalled();
+    expect(await screen.findByText('Not Found')).toBeInTheDocument();
   });
 });

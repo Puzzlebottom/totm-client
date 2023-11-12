@@ -8,6 +8,7 @@ import useModal from '../hooks/useModal';
 import AddEncounterModal from '../components/AddEncounterModal';
 import EditEncounterModal from '../components/EditEncounterModal';
 import SelectEncounterModal from '../components/SelectEncounterModal';
+import EncounterCard from '../components/EncounterCard';
 
 function Home() {
   const { encounters, addEncounter, updateEncounter, deleteEncounter } =
@@ -52,18 +53,11 @@ function Home() {
       {encounters
         .sort((a, b) => b.createdAt - a.createdAt)
         .map((encounter) => (
-          <button
-            type="button"
-            aria-label="encounter card"
-            className="encounter-card"
-            onClick={() => selectEncounter(encounter)}
+          <EncounterCard
             key={encounter.id}
-          >
-            <header>
-              <strong>{encounter.name}</strong>
-            </header>
-            <p>{encounter.description}</p>
-          </button>
+            encounter={encounter}
+            selectEncounter={selectEncounter}
+          />
         ))}
       <AddEncounterModal
         isOpen={isAddModalOpen}

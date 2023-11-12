@@ -121,11 +121,5 @@ describe('Home', () => {
 
       expect(await screen.findAllByRole('article'));
     });
-
-    describe.skip('Encounter card', () => {
-      it('should contain the name and description of the encounter', () => { });
-
-      it('should open the Select Encounter modal when clicked', () => { });
-    });
   });
 });

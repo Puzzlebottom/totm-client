@@ -17,7 +17,7 @@ type Props = {
   onClose: () => void;
 };
 
-export default function AddEncounterModal({
+export default function EditEncounterModal({
   encounter,
   isOpen,
   onSubmit,
@@ -63,6 +63,7 @@ export default function AddEncounterModal({
               <span>Name {errors.name && `${errors.name.message}`}</span>
               <input
                 {...register('name')}
+                aria-label="name"
                 placeholder="Enter a description"
                 aria-invalid={errors.name ? 'true' : undefined}
                 autoComplete="off"
@@ -76,18 +77,25 @@ export default function AddEncounterModal({
               </span>
               <input
                 {...register('description')}
+                aria-label="description"
                 placeholder="Enter a description"
                 aria-invalid={errors.description ? 'true' : undefined}
                 autoComplete="off"
               />
             </label>
             <footer>
-              <button type="button" className="secondary" onClick={onClose}>
+              <button
+                type="button"
+                aria-label="cancel"
+                className="secondary"
+                onClick={onClose}
+              >
                 Cancel
               </button>
               <button
-                disabled={isSubmitting}
                 type="button"
+                aria-label="save"
+                disabled={isSubmitting}
                 onClick={handleSubmit(submit)}
               >
                 Save

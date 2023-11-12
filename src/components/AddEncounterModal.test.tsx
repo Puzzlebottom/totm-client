@@ -81,7 +81,7 @@ describe('Add Encounter modal', () => {
     setupTest();
     const user = userEvent.setup();
 
-    const submitButton = await screen.findByText('Create');
+    const submitButton = await screen.findByLabelText('create');
 
     await user.click(submitButton); // no input
 

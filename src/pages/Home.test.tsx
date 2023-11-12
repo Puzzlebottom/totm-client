@@ -128,22 +128,4 @@ describe('Home', () => {
       it('should open the Select Encounter modal when clicked', () => { });
     });
   });
-
-  describe.skip('Edit Encounter Modal', () => {
-    it('should be hidden by default', () => { });
-
-    it('should have a close button that hides the modal', () => { });
-
-    it('should have buttons to cancel and confirm the edit', () => { });
-
-    it('should have text inputs for name and description', () => { });
-
-    it('should fill the inputs with the name and description of the encounter', () => { });
-
-    it('should not accept invalid input', () => { });
-
-    it('should render warning text if invalid input is submitted', () => { });
-
-    it('should edit the encounter information', () => { });
-  });
 });

@@ -79,16 +79,14 @@ describe('Home', () => {
     ).toBeInTheDocument();
   });
 
-  it('should hide all modals by default', () => { });
+  it('should hide all modals by default', async () => {
+    setupTest();
 
-  describe.skip('Encounter search bar', () => {
-    it('should autocomplete user input based on current encounters', () => { });
+    const modals = await screen.findAllByRole('dialog', { hidden: true });
 
-    it('should open the Select Encounter modal when an existing encounter name is submitted', () => { });
-
-    it('should render text that no such encounter exists when submitted without a valid encounter name', () => { });
-
-    it('should render text that a name is required when submitted with no input', () => { });
+    modals.forEach((modal) => {
+      expect((modal as HTMLDialogElement).open).toBe(false);
+    });
   });
 
   describe('Add Encounter button', async () => {
@@ -107,19 +105,122 @@ describe('Home', () => {
     });
   });
 
-  describe.skip('Encounter List', () => {
-    it('should render the encounter cards', () => { });
+  describe('Encounter List', () => {
+    it('should render the encounter cards', async () => {
+      setupTest();
 
-    it('should add new encounters', () => { });
+      expect(await screen.findAllByLabelText('encounter card')).toHaveLength(3);
+    });
 
-    it('should remove deleted encounters', () => { });
+    it('should add new encounters', async () => {
+      setupTest();
+      const user = userEvent.setup();
 
-    it('should update edited encounters', () => { });
+      expect(await screen.findAllByLabelText('encounter card')).toHaveLength(3);
+
+      const addEncounterButton = await screen.findByLabelText('add encounter');
+      await user.click(addEncounterButton);
+
+      const nameInput = await screen.findByLabelText('name');
+      const descriptionInput = await screen.findByLabelText('description');
+
+      await user.type(nameInput, 'New Encounter');
+      await user.type(descriptionInput, 'A Cool Description');
+
+      const submitButton = await screen.findByLabelText('create');
+
+      await user.click(submitButton);
+
+      expect(await screen.findAllByLabelText('encounter card')).toHaveLength(4);
+    });
+
+    it('should remove deleted encounters', async () => {
+      setupTest();
+      const user = userEvent.setup();
+
+      const encounterCards = await screen.findAllByLabelText('encounter card');
+
+      await user.click(encounterCards[0]);
+
+      const deleteButton = await screen.findByLabelText('delete');
+      const confirmButton = await screen.findByLabelText('confirm delete');
+
+      expect(encounterCards).toHaveLength(3);
+
+      await user.click(deleteButton);
+      await user.click(confirmButton);
+
+      expect(await screen.findAllByLabelText('encounter card')).toHaveLength(2);
+    });
+
+    it('should update edited encounters', async () => {
+      setupTest();
+      const user = userEvent.setup();
+
+      const encounterCards = await screen.findAllByLabelText('encounter card');
+
+      await user.click(encounterCards[0]);
+
+      const editButton = await screen.findByLabelText('edit');
+
+      await user.click(editButton);
+
+      const nameInput = await screen.findByLabelText('edit name');
+      const descriptionInput = await screen.findByLabelText('edit description');
+
+      expect(nameInput).toHaveDisplayValue('Test Encounter 3');
+      expect(descriptionInput).toHaveDisplayValue('Cool description 3');
+
+      await userEvent.clear(nameInput);
+      await userEvent.clear(descriptionInput);
+      await user.type(nameInput, 'Updated Name');
+      await user.type(descriptionInput, 'Updated Description');
+
+      const saveButton = await screen.findByLabelText('save');
+
+      await user.click(saveButton);
+
+      const updatedEncounterCards =
+        await screen.findAllByLabelText('encounter card');
+
+      expect(updatedEncounterCards).toHaveLength(3);
+
+      expect(updatedEncounterCards[0]).not.toHaveTextContent(
+        'Test Encounter 3'
+      );
+      expect(updatedEncounterCards[0]).not.toHaveTextContent(
+        'Cool description 3'
+      );
+      expect(updatedEncounterCards[0]).toHaveTextContent('Updated Name');
+      expect(updatedEncounterCards[0]).toHaveTextContent('Updated Description');
+    });
 
     it('should render the encounters from newest to oldest', async () => {
       setupTest();
+      const user = userEvent.setup();
 
-      expect(await screen.findAllByRole('article'));
+      let encounters = await screen.findAllByLabelText('encounter card');
+      expect(encounters[0]).toHaveTextContent('Test Encounter 3');
+      expect(encounters[1]).toHaveTextContent('Test Encounter 2');
+      expect(encounters[2]).toHaveTextContent('Test Encounter 1');
+
+      const addEncounterButton = await screen.findByLabelText('add encounter');
+      await user.click(addEncounterButton);
+
+      const nameInput = await screen.findByLabelText('name');
+      const descriptionInput = await screen.findByLabelText('description');
+
+      await user.type(nameInput, 'Test Encounter 4');
+      await user.type(descriptionInput, 'A Cool Description');
+
+      const submitButton = await screen.findByLabelText('create');
+
+      await user.click(submitButton);
+
+      encounters = await screen.findAllByLabelText('encounter card');
+      expect(encounters[0]).toHaveTextContent('Test Encounter 4');
+
+      expect(await screen.findAllByLabelText('encounter card')).toHaveLength(4);
     });
   });
 });

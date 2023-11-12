@@ -18,8 +18,8 @@ type Props = {
 
 const testEncounter: Encounter = {
   id: 12,
-  name: 'Above the Clouds',
-  description: 'Soaring in the golden realm of angels',
+  name: '',
+  description: '',
   isActive: false,
   round: 0,
   turn: 0,
@@ -42,7 +42,7 @@ export default function AddEncounterModal({
   });
 
   const submit = (data: FieldValues) => {
-    onSubmit({ ...testEncounter, ...data });
+    onSubmit({ ...testEncounter, ...data, createdAt: Date.now() });
     reset();
     onClose();
   };

@@ -61,15 +61,17 @@ describe('Edit Encounter Modal', () => {
   it('should have text inputs for name and description', async () => {
     setupTest();
 
-    expect(await screen.findByLabelText('name')).toBeInTheDocument();
-    expect(await screen.findByLabelText('description')).toBeInTheDocument();
+    expect(await screen.findByLabelText('edit name')).toBeInTheDocument();
+    expect(
+      await screen.findByLabelText('edit description')
+    ).toBeInTheDocument();
   });
 
   it('should fill the inputs with the name and description of the encounter', async () => {
     setupTest();
 
-    const nameInput = await screen.findByLabelText('name');
-    const descriptionInput = await screen.findByLabelText('description');
+    const nameInput = await screen.findByLabelText('edit name');
+    const descriptionInput = await screen.findByLabelText('edit description');
 
     expect(nameInput).toHaveDisplayValue('Test Encounter');
     expect(descriptionInput).toHaveDisplayValue('A Cool Description');
@@ -79,8 +81,8 @@ describe('Edit Encounter Modal', () => {
     setupTest();
     const user = userEvent.setup();
 
-    const nameInput = await screen.findByLabelText('name');
-    const descriptionInput = await screen.findByLabelText('description');
+    const nameInput = await screen.findByLabelText('edit name');
+    const descriptionInput = await screen.findByLabelText('edit description');
     const submitButton = await screen.findByLabelText('save');
 
     await userEvent.clear(nameInput);
@@ -112,8 +114,8 @@ it('should call the editEncounter function if the save button is clicked while t
   setupTest();
   const user = userEvent.setup();
 
-  const nameInput = await screen.findByLabelText('name');
-  const descriptionInput = await screen.findByLabelText('description');
+  const nameInput = await screen.findByLabelText('edit name');
+  const descriptionInput = await screen.findByLabelText('edit description');
   const submitButton = await screen.findByLabelText('save');
 
   await userEvent.clear(nameInput);

@@ -63,7 +63,7 @@ export default function EditEncounterModal({
               <span>Name {errors.name && `${errors.name.message}`}</span>
               <input
                 {...register('name')}
-                aria-label="name"
+                aria-label="edit name"
                 placeholder="Enter a description"
                 aria-invalid={errors.name ? 'true' : undefined}
                 autoComplete="off"
@@ -77,7 +77,7 @@ export default function EditEncounterModal({
               </span>
               <input
                 {...register('description')}
-                aria-label="description"
+                aria-label="edit description"
                 placeholder="Enter a description"
                 aria-invalid={errors.description ? 'true' : undefined}
                 autoComplete="off"

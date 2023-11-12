@@ -62,10 +62,8 @@ describe('Add Encounter modal', () => {
     const descriptionInput = await screen.findByLabelText('description');
     const submitButton = await screen.findByLabelText('create');
 
-    await user.click(nameInput);
-    await user.keyboard('Test Name');
-    await user.click(descriptionInput);
-    await user.keyboard('Test Description');
+    await user.type(nameInput, 'Test Name');
+    await user.type(descriptionInput, 'Test Description');
     await user.click(submitButton);
 
     expect(onSubmitMock).toHaveBeenCalledWith(
@@ -95,11 +93,8 @@ describe('Add Encounter modal', () => {
     const nameInput = await screen.findByLabelText('name');
     const descriptionInput = await screen.findByLabelText('description');
 
-    await user.click(nameInput);
-    await user.keyboard('{a>51/}'); // longer input that 50 char max
-    await user.click(descriptionInput);
-    await user.keyboard('{a>301/}'); // longer input than 300 char max
-
+    await user.type(nameInput, '{a>51/}'); // longer input that 50 char max
+    await user.type(descriptionInput, '{a>301/}'); // longer input than 300 char max
     await user.click(submitButton);
 
     expect(onSubmitMock).not.toHaveBeenCalled();

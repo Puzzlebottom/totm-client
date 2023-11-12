@@ -33,7 +33,6 @@ export default function api<Request, Response>({
       // const validatedEncounters = responseSchema.safeParse(encounters);
 
       if (!validatedEncounters.success) {
-        console.log(validatedEncounters.error);
         return new Promise((resolve) => {
           resolve([] as Response);
         });

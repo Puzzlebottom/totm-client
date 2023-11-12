@@ -95,11 +95,8 @@ describe('Edit Encounter Modal', () => {
       await screen.findByText('Description required!')
     ).toBeInTheDocument();
 
-    await user.click(nameInput);
-    await user.keyboard('{a>51/}'); // longer input that 50 char max
-    await user.click(descriptionInput);
-    await user.keyboard('{a>301/}'); // longer input than 300 char max
-
+    await user.type(nameInput, '{a>51/}'); // longer input that 50 char max
+    await user.type(descriptionInput, '{a>301/}'); // longer input than 300 char max
     await user.click(submitButton);
 
     expect(onSubmitMock).not.toHaveBeenCalled();
@@ -122,10 +119,8 @@ it('should call the editEncounter function if the save button is clicked while t
   await userEvent.clear(nameInput);
   await userEvent.clear(descriptionInput);
 
-  await user.click(nameInput);
-  await user.keyboard('Updated Name');
-  await user.click(descriptionInput);
-  await user.keyboard('Updated Description');
+  await user.type(nameInput, 'Updated Name');
+  await user.type(descriptionInput, 'Updated Description');
   await user.click(submitButton);
 
   expect(onSubmitMock).toHaveBeenCalledWith(

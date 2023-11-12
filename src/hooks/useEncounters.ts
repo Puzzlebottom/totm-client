@@ -15,13 +15,13 @@ type State = {
   encounters: Encounter[];
 };
 
-type Action =
+export type Action =
   | { type: typeof ACTIONS.SET_ENCOUNTERS; encounters: Encounter[] }
   | { type: typeof ACTIONS.ADD_ENCOUNTER; encounter: Encounter }
   | { type: typeof ACTIONS.UPDATE_ENCOUNTER; encounter: Encounter }
   | { type: typeof ACTIONS.DELETE_ENCOUNTER; encounterId: number };
 
-const reducer = (state: State, action: Action) => {
+export const reducer = (state: State, action: Action) => {
   switch (action.type) {
     case ACTIONS.SET_ENCOUNTERS:
       return { encounters: action.encounters };

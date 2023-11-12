@@ -150,13 +150,10 @@ export default function useEncounters(): {
     dispatch({ type: ACTIONS.RUN_ENCOUNTER, encounterId });
   };
 
-  const { isLoading, isError, data, error } = useQuery({
+  const { data } = useQuery({
     queryKey: ['encounters'],
     queryFn: () => getEncounters(),
   });
-
-  // if (isLoading) console.log('LOADING');
-  // if (isError) console.log(error.message);
 
   useEffect(() => {
     if (data) {

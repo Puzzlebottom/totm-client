@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { FaPlus } from 'react-icons/fa';
 
-import { Encounter } from '../interfaces/Encounter';
 import useEncounters from '../hooks/useEncounters';
 import EncounterSearchBar from '../components/EncounterSearchBar';
 import useModal from '../hooks/useModal';
@@ -11,32 +10,31 @@ import SelectEncounterModal from '../components/SelectEncounterModal';
 import EncounterCard from '../components/EncounterCard';
 
 function Home() {
-  const { encounters, addEncounter, updateEncounter, deleteEncounter } =
-    useEncounters();
+  const {
+    encounters,
+    displayedEncounters,
+    selectedEncounter,
+    addEncounter,
+    updateEncounter,
+    deleteEncounter,
+    selectEncounter,
+    filterEncounters,
+    runEncounter,
+  } = useEncounters();
 
   const [isAddModalOpen, openAddModal, closeAddModal] = useModal(false);
   const [isEditModalOpen, openEditModal, closeEditModal] = useModal(false);
   const [isSelectModalOpen, openSelectModal, closeSelectModal] =
     useModal(false);
 
-  const [selectedEncounter, setSelectedEncounter] = useState<Encounter | null>(
-    null
-  );
-
-  const editEncounter = () => {
+  const handleEdit = (): void => {
     closeSelectModal();
     openEditModal();
   };
 
-  const selectEncounter = (encounter: Encounter) => {
-    setSelectedEncounter(encounter);
+  const handleSelect = (encounterId: number): void => {
     openSelectModal();
-  };
-
-  const filterEncounters = (filtered: Encounter[]) => {
-    if (encounters.length === 1) {
-      selectEncounter(filtered[0]);
-    }
+    selectEncounter(encounterId);
   };
 
   return (
@@ -45,13 +43,13 @@ function Home() {
       <button type="button" aria-label="add encounter" onClick={openAddModal}>
         <FaPlus />
       </button>
-      {encounters
+      {displayedEncounters
         .sort((a, b) => b.createdAt - a.createdAt)
         .map((encounter) => (
           <EncounterCard
             key={encounter.id}
             encounter={encounter}
-            selectEncounter={selectEncounter}
+            selectEncounter={() => handleSelect(encounter.id)}
           />
         ))}
       <AddEncounterModal
@@ -63,8 +61,8 @@ function Home() {
         encounter={selectedEncounter}
         isOpen={isSelectModalOpen}
         deleteEncounter={deleteEncounter}
-        editEncounter={editEncounter}
-        runEncounter={() => console.log('run')}
+        editEncounter={handleEdit}
+        runEncounter={runEncounter}
         onClose={closeSelectModal}
       />
       <EditEncounterModal

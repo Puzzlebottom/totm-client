@@ -6,8 +6,16 @@ import useEncounters, { reducer } from './useEncounters';
 import { Encounter } from '../interfaces/Encounter';
 
 function TestComponent(): JSX.Element {
-  const { encounters, addEncounter, updateEncounter, deleteEncounter } =
-    useEncounters();
+  const {
+    encounters,
+    displayedEncounters,
+    selectedEncounter,
+    addEncounter,
+    updateEncounter,
+    deleteEncounter,
+    selectEncounter,
+    filterEncounters,
+  } = useEncounters();
 
   const mockEncounter: Encounter = {
     id: 4,

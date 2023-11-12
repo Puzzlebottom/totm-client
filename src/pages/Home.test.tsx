@@ -129,28 +129,6 @@ describe('Home', () => {
     });
   });
 
-  describe.skip('Select Encounter Modal', () => {
-    it('should be hidden by default', () => { });
-
-    it('should have a close button that hides the modal', () => { });
-
-    it('should have a delete button', () => { });
-
-    it('the delete button should open a confirmation dialog when clicked', () => { });
-
-    it('the delete button should delete the encounter after confirmation', () => { });
-
-    it('should have an edit button');
-
-    it('the edit button should open the Edit encounter Modal when clicked', () => { });
-
-    it('should have a run button', () => { });
-
-    it('the run button should set the encounter as Selected Encounter', () => { });
-
-    it('the run button should navigate to the Encounter Runner page', () => { });
-  });
-
   describe.skip('Edit Encounter Modal', () => {
     it('should be hidden by default', () => { });
 

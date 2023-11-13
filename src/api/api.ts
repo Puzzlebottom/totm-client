@@ -37,6 +37,7 @@ export default function api<Request, Response>({
           resolve([] as Response);
         });
       }
+
       return validatedEncounters.data;
     }
 

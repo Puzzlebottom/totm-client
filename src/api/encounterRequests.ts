@@ -3,8 +3,8 @@ import { z } from 'zod';
 import { encounterSchema } from '../interfaces/Encounter';
 import api, { HTTPMethod } from './api';
 
-const GetEncountersRequest = z.void();
-const GetEncountersResponse = z.array(encounterSchema);
+export const GetEncountersRequest = z.void();
+export const GetEncountersResponse = z.array(encounterSchema);
 
 export const getEncounters = api<
   z.infer<typeof GetEncountersRequest>,

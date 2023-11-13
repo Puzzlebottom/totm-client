@@ -38,7 +38,11 @@ function Home() {
 
   return (
     <main className="container">
-      <EncounterSearchBar data={encounters} callback={filterEncounters} />
+      <EncounterSearchBar
+        data={encounters}
+        filterEncounters={filterEncounters}
+        selectEncounter={selectEncounter}
+      />
       <button type="button" aria-label="add encounter" onClick={openAddModal}>
         <FaPlus />
       </button>

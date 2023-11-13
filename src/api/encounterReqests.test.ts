@@ -37,7 +37,6 @@ describe('getEncounters', () => {
   it('calls the api function with the correct arguments', async () => {
     await getEncounters();
 
-    expect(apiMock).toHaveBeenCalled();
     expect(apiMock).toHaveBeenCalledWith(
       expect.objectContaining({
         method: HTTPMethod.GET,

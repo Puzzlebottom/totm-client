@@ -21,7 +21,6 @@ export default function EncounterCard({
         <strong>{encounter.name}</strong>
       </header>
       <p>{encounter.description}</p>
-      <p>{encounter.id}</p>
     </button>
   );
 }

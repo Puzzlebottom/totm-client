@@ -294,7 +294,7 @@ describe('Encounter search bar', () => {
     expect(input).toHaveValue('TEST');
     expect(autocomplete).toHaveValue('TEST Encounter 1');
     expect(
-      await screen.findByText('No encounter exists called TEST')
+      await screen.findByText("You'll have to be more specific")
     ).toBeInTheDocument();
 
     await user.type(input, ' ENCOUNTER 1');

@@ -153,7 +153,7 @@ export default function EncounterSearchBar({
     // You've searched for something specific that we don't have
     dispatch({
       type: ACTIONS.UPDATE_ERROR_MESSAGE,
-      value: `No encounter exists called ${state.searchValue}`,
+      value: "You'll have to be more specific",
     });
   };
 
@@ -174,6 +174,8 @@ export default function EncounterSearchBar({
   };
 
   useEffect(() => {
+    index.current = new Trie();
+
     data.forEach((encounter) => {
       index.current.insert(encounter.name);
     });

@@ -1,6 +1,7 @@
 import { useEffect, useReducer, useRef } from 'react';
 import { Encounter } from '../interfaces/Encounter';
 import Trie from '../utilities/Trie';
+import '../styles/encounterSearchBar.css';
 
 type Props = {
   data: Encounter[];
@@ -186,22 +187,22 @@ export default function EncounterSearchBar({
   }, [state.searchResults, filterEncounters]);
 
   return (
-    <form aria-label="encounter search form">
+    <form aria-label="encounter search form" className="search-bar">
       {state.errorMessage && <div>{state.errorMessage}</div>}
-      <div>
+      <div className="search-wrapper">
         <input
           type="text"
           value={state.searchValue}
           placeholder="Search encounter by name..."
           onChange={handleChange}
           onKeyDown={handleKeyDown}
-          className="encounter-search-input"
+          className="search-input"
           aria-label="encounter search input"
         />
         <input
           type="text"
           value={state.autocompleteValue}
-          className="encounter-search-autocomplete"
+          className="search-autocomplete"
           aria-label="encounter search autocomplete"
           readOnly
           tabIndex={-1}

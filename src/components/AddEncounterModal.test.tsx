@@ -104,4 +104,22 @@ describe('Add Encounter modal', () => {
       await screen.findByText('Description too long!')
     ).toBeInTheDocument();
   });
+
+  it('should attempt to submit when the Enter key is pressed in either input', async () => {
+    setupTest();
+    const user = userEvent.setup();
+    const nameInput = await screen.findByLabelText('name');
+    const descriptionInput = await screen.findByLabelText('description');
+
+    await user.type(nameInput, 'Test Name');
+    await user.type(descriptionInput, 'Test Description{Enter}');
+
+    expect(onCloseMock).toHaveBeenCalled();
+    expect(onSubmitMock).toHaveBeenCalledWith(
+      expect.objectContaining({
+        name: 'Test Name',
+        description: 'Test Description',
+      })
+    );
+  });
 });

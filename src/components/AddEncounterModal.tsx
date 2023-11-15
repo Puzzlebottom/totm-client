@@ -42,6 +42,7 @@ export default function AddEncounterModal({
   });
 
   const submit = (data: FieldValues) => {
+    console.log('DATA: ', data);
     onSubmit({
       ...testEncounter,
       id: ++testEncounter.id,
@@ -55,7 +56,7 @@ export default function AddEncounterModal({
   return (
     <Modal isOpen={isOpen} hasCloseBtn onClose={onClose}>
       <h3>Create New Encounter</h3>
-      <form aria-label="New Encounter Form">
+      <form aria-label="New Encounter Form" onSubmit={handleSubmit(submit)}>
         <label htmlFor="name">
           <span>Name {errors.name && `${errors.name.message}`}</span>
           <input
@@ -79,6 +80,7 @@ export default function AddEncounterModal({
             autoComplete="off"
           />
         </label>
+        <button aria-label="submit" type="submit" hidden />
       </form>
       <footer>
         <button

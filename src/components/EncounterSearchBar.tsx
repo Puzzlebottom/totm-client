@@ -99,6 +99,7 @@ export default function EncounterSearchBar({
   };
 
   const handleSearch = () => {
+    // Can't search with a blank input
     if (state.searchValue === '') {
       dispatch({
         type: ACTIONS.UPDATE_ERROR_MESSAGE,
@@ -107,6 +108,7 @@ export default function EncounterSearchBar({
       return;
     }
 
+    // No results, so we let the user know
     if (state.searchResults.length === 0) {
       dispatch({
         type: ACTIONS.UPDATE_ERROR_MESSAGE,
@@ -118,6 +120,7 @@ export default function EncounterSearchBar({
       return;
     }
 
+    // A single result, let's streamline things and just select it
     if (state.searchResults.length === 1) {
       dispatch({ type: ACTIONS.UPDATE_SEARCH_VALUE, value: '' });
       dispatch({ type: ACTIONS.UPDATE_AUTOCOMPLETE, value: '' });
@@ -127,10 +130,12 @@ export default function EncounterSearchBar({
       return;
     }
 
+    // You've got multiple results, but if you're done typing, let's see if there's a match
     const matches = state.searchResults.filter(
       (encounter) => encounter.name === state.searchValue
     );
 
+    // You've got one matcH, we'll select it.
     if (matches.length === 1) {
       dispatch({ type: ACTIONS.UPDATE_SEARCH_VALUE, value: '' });
       dispatch({ type: ACTIONS.UPDATE_AUTOCOMPLETE, value: '' });
@@ -140,10 +145,12 @@ export default function EncounterSearchBar({
       return;
     }
 
+    // Huh...you got duplicates
     if (matches.length > 1) {
       return;
     }
 
+    // You've searched for something specific that we don't have
     dispatch({
       type: ACTIONS.UPDATE_ERROR_MESSAGE,
       value: `No encounter exists called ${state.searchValue}`,

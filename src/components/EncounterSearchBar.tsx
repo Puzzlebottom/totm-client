@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useReducer, useRef } from 'react';
 import { Encounter } from '../interfaces/Encounter';
 import Trie from '../utilities/Trie';
 
@@ -13,59 +13,185 @@ export default function EncounterSearchBar({
   filterEncounters,
   selectEncounter,
 }: Props) {
-  const index = useRef(new Trie());
-  const [searchValue, setSearchValue] = useState('');
-  const [autocompleteValue, setAutocompleteValue] = useState('');
+  const initialState: {
+    searchValue: string;
+    autocompleteValue: string;
+    errorMessage: string;
+    searchResults: Encounter[];
+  } = {
+    searchValue: '',
+    autocompleteValue: '',
+    errorMessage: '',
+    searchResults: [],
+  };
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setSearchValue(e.target.value);
+  const index = useRef<Trie>(new Trie());
 
-    if (e.target.value === '') {
-      setAutocompleteValue('');
-      return;
-    }
+  const ACTIONS = {
+    UPDATE_SEARCH_VALUE: 'UPDATE_SEARCHVALUE',
+    UPDATE_AUTOCOMPLETE: 'UPDATE_AUTOCOMPLETE',
+    UPDATE_ERROR_MESSAGE: 'UPDATE_ERROR_MESSAGE',
+    UPDATE_SEARCH_RESULTS: 'UPDATE_SEARCH_RESULTS',
+  } as const;
 
-    const suggestions = index.current.findSuggestions(e.target.value);
-    if (suggestions.length > 0) {
-      setAutocompleteValue(suggestions[0]);
+  type Action =
+    | { type: typeof ACTIONS.UPDATE_SEARCH_VALUE; value: string }
+    | { type: typeof ACTIONS.UPDATE_AUTOCOMPLETE; value: string }
+    | { type: typeof ACTIONS.UPDATE_ERROR_MESSAGE; value: string }
+    | { type: typeof ACTIONS.UPDATE_SEARCH_RESULTS; value: Encounter[] };
+
+  const reducer = (state: typeof initialState, action: Action) => {
+    switch (action.type) {
+      case ACTIONS.UPDATE_SEARCH_VALUE:
+        return { ...state, searchValue: action.value };
+      case ACTIONS.UPDATE_AUTOCOMPLETE:
+        return { ...state, autocompleteValue: action.value };
+      case ACTIONS.UPDATE_ERROR_MESSAGE:
+        return { ...state, errorMessage: action.value };
+      case ACTIONS.UPDATE_SEARCH_RESULTS:
+        return { ...state, searchResults: action.value };
+      default:
+        return state;
     }
   };
 
-  const handleSearch = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    const regexp = new RegExp(searchValue.trim().toLowerCase());
+  const [state, dispatch] = useReducer(reducer, initialState);
 
-    const result = data.filter((encounter) => {
-      return (
-        encounter.name.match(regexp) || encounter.description.match(regexp)
+  const autoComplete = (prefix: string): void => {
+    const suggestions = index.current.findSuggestions(prefix.toLowerCase());
+
+    if (suggestions.length === 0) {
+      dispatch({ type: ACTIONS.UPDATE_AUTOCOMPLETE, value: '' });
+      dispatch({ type: ACTIONS.UPDATE_SEARCH_RESULTS, value: [] });
+    } else {
+      const filteredEncounters = data.filter((encounter) =>
+        suggestions.includes(encounter.name.toLowerCase())
       );
-    });
+      const [current, next] = filteredEncounters
+        .map((encounter) => encounter.name)
+        .sort((a, b) => a.length - b.length || a.localeCompare(b));
+      const suggestion = next && current === prefix ? next : current;
+      const caseBlendedSuggestion = prefix + suggestion.slice(prefix.length);
 
-    setSearchValue('');
-    filterEncounters(result);
+      dispatch({
+        type: ACTIONS.UPDATE_AUTOCOMPLETE,
+        value: caseBlendedSuggestion,
+      });
+      dispatch({
+        type: ACTIONS.UPDATE_SEARCH_RESULTS,
+        value: filteredEncounters,
+      });
+    }
+  };
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    e.preventDefault();
+
+    dispatch({ type: ACTIONS.UPDATE_SEARCH_VALUE, value: e.target.value });
+    dispatch({ type: ACTIONS.UPDATE_ERROR_MESSAGE, value: '' });
+
+    if (e.target.value === '') {
+      dispatch({ type: ACTIONS.UPDATE_AUTOCOMPLETE, value: '' });
+      dispatch({ type: ACTIONS.UPDATE_SEARCH_RESULTS, value: data });
+    } else {
+      autoComplete(e.target.value);
+    }
+  };
+
+  const handleSearch = () => {
+    if (state.searchValue === '') {
+      dispatch({
+        type: ACTIONS.UPDATE_ERROR_MESSAGE,
+        value: 'Enter a name to search...',
+      });
+      return;
+    }
+
+    if (state.searchResults.length === 0) {
+      dispatch({
+        type: ACTIONS.UPDATE_ERROR_MESSAGE,
+        value: `No encounter exists called ${state.searchValue}`,
+      });
+      dispatch({ type: ACTIONS.UPDATE_SEARCH_VALUE, value: '' });
+      dispatch({ type: ACTIONS.UPDATE_AUTOCOMPLETE, value: '' });
+      dispatch({ type: ACTIONS.UPDATE_SEARCH_RESULTS, value: data });
+      return;
+    }
+
+    if (state.searchResults.length === 1) {
+      dispatch({ type: ACTIONS.UPDATE_SEARCH_VALUE, value: '' });
+      dispatch({ type: ACTIONS.UPDATE_AUTOCOMPLETE, value: '' });
+      dispatch({ type: ACTIONS.UPDATE_SEARCH_RESULTS, value: data });
+      dispatch({ type: ACTIONS.UPDATE_ERROR_MESSAGE, value: '' });
+      selectEncounter(state.searchResults[0].id);
+      return;
+    }
+
+    const matches = state.searchResults.filter(
+      (encounter) => encounter.name === state.searchValue
+    );
+
+    if (matches.length === 1) {
+      dispatch({ type: ACTIONS.UPDATE_SEARCH_VALUE, value: '' });
+      dispatch({ type: ACTIONS.UPDATE_AUTOCOMPLETE, value: '' });
+      dispatch({ type: ACTIONS.UPDATE_SEARCH_RESULTS, value: data });
+      dispatch({ type: ACTIONS.UPDATE_ERROR_MESSAGE, value: '' });
+      selectEncounter(matches[0].id);
+      return;
+    }
+
+    if (matches.length > 1) {
+      return;
+    }
+
+    dispatch({
+      type: ACTIONS.UPDATE_ERROR_MESSAGE,
+      value: `No encounter exists called ${state.searchValue}`,
+    });
+  };
+
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter') {
+      handleSearch();
+    }
+    if (
+      e.key === 'ArrowRight' &&
+      state.autocompleteValue.length > state.searchValue.length
+    ) {
+      dispatch({
+        type: ACTIONS.UPDATE_SEARCH_VALUE,
+        value: state.autocompleteValue,
+      });
+      autoComplete(state.autocompleteValue);
+    }
   };
 
   useEffect(() => {
     data.forEach((encounter) => {
       index.current.insert(encounter.name);
     });
-    console.log(index);
   }, [data]);
 
+  useEffect(() => {
+    filterEncounters(state.searchResults);
+  }, [state.searchResults, filterEncounters]);
+
   return (
-    <form onSubmit={handleSearch} aria-label="encounter search form">
+    <form aria-label="encounter search form">
+      {state.errorMessage && <div>{state.errorMessage}</div>}
       <div>
         <input
           type="text"
-          value={searchValue}
+          value={state.searchValue}
           placeholder="Search encounter by name..."
           onChange={handleChange}
+          onKeyDown={handleKeyDown}
           className="encounter-search-input"
           aria-label="encounter search input"
         />
         <input
           type="text"
-          value={autocompleteValue}
+          value={state.autocompleteValue}
           className="encounter-search-autocomplete"
           aria-label="encounter search autocomplete"
           readOnly

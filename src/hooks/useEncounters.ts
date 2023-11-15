@@ -1,4 +1,4 @@
-import { useEffect, useReducer } from 'react';
+import { useCallback, useEffect, useReducer } from 'react';
 import { useQuery } from '@tanstack/react-query';
 
 import { Encounter } from '../interfaces/Encounter';
@@ -142,9 +142,9 @@ export default function useEncounters(): {
     dispatch({ type: ACTIONS.SELECT_ENCOUNTER, encounterId });
   };
 
-  const filterEncounters = (encounters: Encounter[]) => {
+  const filterEncounters = useCallback((encounters: Encounter[]) => {
     dispatch({ type: ACTIONS.SET_DISPLAYED_ENCOUNTERS, encounters });
-  };
+  }, []);
 
   const runEncounter = (encounterId: number) => {
     dispatch({ type: ACTIONS.RUN_ENCOUNTER, encounterId });

@@ -9,21 +9,24 @@ export default class Trie {
 
   insert(word: string): void {
     let curNode = this.root;
-    word.split('').forEach((w, i) => {
-      const isFinalChar = i === word.length - 1;
-      const hasNode = curNode.children[w];
-      if (hasNode) {
-        curNode = hasNode;
-      } else {
-        // add a new node to curNode children.
-        const newNode = new TrieNode('', w);
-        curNode.children[w] = newNode;
-        curNode = newNode;
-      }
-      if (isFinalChar) {
-        curNode.val = word;
-      }
-    });
+    word
+      .toLowerCase()
+      .split('')
+      .forEach((w, i) => {
+        const isFinalChar = i === word.length - 1;
+        const hasNode = curNode.children[w];
+        if (hasNode) {
+          curNode = hasNode;
+        } else {
+          // add a new node to curNode children.
+          const newNode = new TrieNode('', w);
+          curNode.children[w] = newNode;
+          curNode = newNode;
+        }
+        if (isFinalChar) {
+          curNode.val = word.toLowerCase();
+        }
+      });
   }
 
   search(word: string): boolean {

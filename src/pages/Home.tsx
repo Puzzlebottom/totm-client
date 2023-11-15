@@ -41,7 +41,7 @@ function Home() {
       <EncounterSearchBar
         data={encounters}
         filterEncounters={filterEncounters}
-        selectEncounter={selectEncounter}
+        selectEncounter={handleSelect}
       />
       <button type="button" aria-label="add encounter" onClick={openAddModal}>
         <FaPlus />

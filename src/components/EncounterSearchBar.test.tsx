@@ -1,4 +1,4 @@
-import { describe, it, expect, vi, afterAll } from 'vitest';
+import { describe, it, expect, vi, afterEach } from 'vitest';
 import { render, screen } from '@testing-library/react';
 
 import userEvent from '@testing-library/user-event';
@@ -8,29 +8,6 @@ import { Encounter } from '../interfaces/Encounter';
 
 const filterEncountersMock = vi.fn();
 const selectEncounterMock = vi.fn();
-
-const encountersMock2 = [
-  {
-    id: 0,
-    name: 'cat',
-    description: 'meow',
-    isActive: false,
-    round: 0,
-    turn: 0,
-    owner: 0,
-    createdAt: 1699176091596,
-  },
-  {
-    id: 1,
-    name: 'cats',
-    description: 'meow meow',
-    isActive: false,
-    round: 0,
-    turn: 0,
-    owner: 0,
-    createdAt: 1699213770040,
-  },
-];
 
 const setupTest = (encounters: Encounter[]) => {
   render(
@@ -42,7 +19,7 @@ const setupTest = (encounters: Encounter[]) => {
   );
 };
 
-afterAll(() => {
+afterEach(() => {
   vi.restoreAllMocks();
 });
 
@@ -245,7 +222,28 @@ describe('Encounter search bar', () => {
   });
 
   it('should replace the autocomplete value with a different value after autocomplete if one exists', async () => {
-    setupTest(encountersMock2);
+    setupTest([
+      {
+        id: 0,
+        name: 'cat',
+        description: 'meow',
+        isActive: false,
+        round: 0,
+        turn: 0,
+        owner: 0,
+        createdAt: 1699176091596,
+      },
+      {
+        id: 1,
+        name: 'cats',
+        description: 'meow meow',
+        isActive: false,
+        round: 0,
+        turn: 0,
+        owner: 0,
+        createdAt: 1699213770040,
+      },
+    ]);
     const user = userEvent.setup();
 
     const input = await screen.findByRole('textbox', {
@@ -303,11 +301,87 @@ describe('Encounter search bar', () => {
 
     expect(autocomplete).toHaveValue('TEST ENCOUNTER 1');
 
-    vi.restoreAllMocks();
     await user.type(input, '{Enter}');
 
     expect(input).toHaveValue('');
     expect(autocomplete).toHaveValue('');
     expect(selectEncounterMock).toHaveBeenCalledWith(0);
+  });
+
+  it('should select an encounter on submit when multiple encounters are displayed if the encounter name is an exact case matc', async () => {
+    const encounters = [
+      {
+        id: 0,
+        name: 'TEST',
+        description: 'test',
+        isActive: false,
+        round: 0,
+        turn: 0,
+        owner: 0,
+        createdAt: 1699176091596,
+      },
+      {
+        id: 1,
+        name: 'test',
+        description: 'test test',
+        isActive: false,
+        round: 0,
+        turn: 0,
+        owner: 0,
+        createdAt: 1699213770040,
+      },
+    ];
+    setupTest(encounters);
+
+    const user = userEvent.setup();
+
+    const input = await screen.findByRole('textbox', {
+      name: 'encounter search input',
+    });
+
+    await user.type(input, 'test{Enter}');
+
+    expect(selectEncounterMock).toHaveBeenCalledWith(1);
+  });
+
+  it('should not select an encounter, even on an exact match, if multiple encounters exist with matching names', async () => {
+    const encounters = [
+      {
+        id: 0,
+        name: 'test',
+        description: 'test',
+        isActive: false,
+        round: 0,
+        turn: 0,
+        owner: 0,
+        createdAt: 1699176091596,
+      },
+      {
+        id: 1,
+        name: 'test',
+        description: 'test',
+        isActive: false,
+        round: 0,
+        turn: 0,
+        owner: 0,
+        createdAt: 1699213770040,
+      },
+    ];
+    setupTest(encounters);
+
+    const user = userEvent.setup();
+
+    const input = await screen.findByRole('textbox', {
+      name: 'encounter search input',
+    });
+    const autocomplete = await screen.findByRole('textbox', {
+      name: 'encounter search autocomplete',
+    });
+
+    await user.type(input, 'test{Enter}');
+
+    expect(input).toHaveValue('test');
+    expect(autocomplete).toHaveValue('test');
+    expect(selectEncounterMock).not.toHaveBeenCalled();
   });
 });

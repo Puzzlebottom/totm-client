@@ -108,29 +108,49 @@ describe('Edit Encounter Modal', () => {
       await screen.findByText('Description too long!')
     ).toBeInTheDocument();
   });
-});
 
-it('should call the editEncounter function if the save button is clicked while the fields contain valid input', async () => {
-  setupTest();
-  const user = userEvent.setup();
+  it('should call the editEncounter function if the save button is clicked while the fields contain valid input', async () => {
+    setupTest();
+    const user = userEvent.setup();
 
-  const nameInput = await screen.findByLabelText('edit name');
-  const descriptionInput = await screen.findByLabelText('edit description');
-  const submitButton = await screen.findByLabelText('save');
+    const nameInput = await screen.findByLabelText('edit name');
+    const descriptionInput = await screen.findByLabelText('edit description');
+    const submitButton = await screen.findByLabelText('save');
 
-  await userEvent.clear(nameInput);
-  await userEvent.clear(descriptionInput);
+    await userEvent.clear(nameInput);
+    await userEvent.clear(descriptionInput);
 
-  await user.type(nameInput, 'Updated Name');
-  await user.type(descriptionInput, 'Updated Description');
-  await user.click(submitButton);
+    await user.type(nameInput, 'Updated Name');
+    await user.type(descriptionInput, 'Updated Description');
+    await user.click(submitButton);
 
-  expect(onSubmitMock).toHaveBeenCalledWith(
-    expect.objectContaining({
-      name: 'Updated Name',
-      description: 'Updated Description',
-    })
-  );
+    expect(onSubmitMock).toHaveBeenCalledWith(
+      expect.objectContaining({
+        name: 'Updated Name',
+        description: 'Updated Description',
+      })
+    );
 
-  expect(onCloseMock).toHaveBeenCalled();
+    expect(onCloseMock).toHaveBeenCalled();
+  });
+
+  it('should attempt to submit when the Enter key is pressed in either input', async () => {
+    setupTest();
+    const user = userEvent.setup();
+    const nameInput = await screen.findByLabelText('edit name');
+    const descriptionInput = await screen.findByLabelText('edit description');
+
+    await userEvent.clear(nameInput);
+    await userEvent.clear(descriptionInput);
+    await user.type(nameInput, 'Updated Name');
+    await user.type(descriptionInput, 'Updated Description{Enter}');
+
+    expect(onCloseMock).toHaveBeenCalled();
+    expect(onSubmitMock).toHaveBeenCalledWith(
+      expect.objectContaining({
+        name: 'Updated Name',
+        description: 'Updated Description',
+      })
+    );
+  });
 });

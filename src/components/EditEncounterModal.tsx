@@ -56,7 +56,7 @@ export default function EditEncounterModal({
   return (
     <Modal isOpen={isOpen} hasCloseBtn onClose={onClose}>
       <h3>Edit Encounter</h3>
-      <form aria-label="Edit Encounter Form">
+      <form aria-label="Edit Encounter Form" onSubmit={handleSubmit(submit)}>
         {encounter && (
           <>
             <label htmlFor="name">
@@ -103,6 +103,7 @@ export default function EditEncounterModal({
             </footer>
           </>
         )}
+        <button aria-label="submit" type="submit" hidden />
       </form>
     </Modal>
   );

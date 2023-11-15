@@ -41,7 +41,7 @@ export default class Trie {
       }
       i += 1;
     }
-    return curNode ? curNode.val === word : false;
+    return curNode.val === word;
   }
 
   startsWith(prefix: string): boolean {
@@ -51,9 +51,6 @@ export default class Trie {
     while (i < array.length) {
       const w = array[i];
       curNode = curNode.children[w];
-      if (curNode === undefined) {
-        return false;
-      }
       i += 1;
     }
     return curNode

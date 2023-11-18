@@ -1,24 +1,13 @@
 form.search-bar {
-  grid-column: 1 / all;
 
   >div.search-wrapper {
     position: relative;
-    display: flex;
-    justify-content: center;
   
     >input {
       position: absolute;
-      min-width: 40vw;
-      border-radius: 50px;     
-      font-size: inherit;
-      padding-left: 0.5rem;
-      padding-right: 1rem;
-      height: 2rem;
-      width: 20rem;    
       
       &.search-input {
         background-color: transparent;
-        color: black;
         z-index: 1;
       }
   

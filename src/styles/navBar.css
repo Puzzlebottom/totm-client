@@ -1,0 +1,36 @@
+nav.navbar{
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  column-gap: 1em;
+  align-items: center;
+  justify-content: space-between;
+  background-color: var(--color-dark-gray);
+  padding: 1em;
+}
+
+.navbar-brand{
+  color: var(--color-primary);
+  font-size: 1.5em;
+  font-weight: 900;
+  text-decoration: none;
+  background-color: transparent;
+  border: 5px solid var(--color-primary);
+  padding: 0.5rem;
+
+  &:hover, &:focus {
+    color: var(--color-primary-hover);
+    background-color: var(--color-primary);
+    border-color: var(--color-primary-hover);
+  }
+}
+
+.nav-link{
+  color: var(--color-primary);
+  text-decoration: none;
+  padding: 0.5em;
+  margin: 1em;
+
+  &:hover, &:focus{
+    color: var(--color-primary-hover);
+  }
+}

@@ -1,5 +1,8 @@
 import React, { useEffect, useRef, useState } from 'react';
 
+import '../styles/modal.css';
+import { MdClose } from 'react-icons/md';
+
 type Props = {
   isOpen: boolean;
   hasCloseBtn: boolean;
@@ -50,17 +53,17 @@ export default function Modal({
     // https://github.com/jsx-eslint/eslint-plugin-jsx-a11y/pull/940
     // eslint-disable-next-line jsx-a11y/no-noninteractive-element-interactions
     <dialog ref={modalRef} onKeyDown={handleKeyDown}>
-      <article>
-        {hasCloseBtn && (
-          <button
-            type="button"
-            aria-label="close"
-            className="close"
-            onClick={handleCloseModal}
-          />
-        )}
-        {children}
-      </article>
+      {hasCloseBtn && (
+        <button
+          type="button"
+          aria-label="close"
+          className="button-primary-solid close"
+          onClick={handleCloseModal}
+        >
+          <MdClose />
+        </button>
+      )}
+      {children}
     </dialog>
   );
 }

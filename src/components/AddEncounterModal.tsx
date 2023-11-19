@@ -54,10 +54,12 @@ export default function AddEncounterModal({
 
   return (
     <Modal isOpen={isOpen} hasCloseBtn onClose={onClose}>
-      <h3>Create New Encounter</h3>
-      <form aria-label="New Encounter Form" onSubmit={handleSubmit(submit)}>
-        <label htmlFor="name">
-          <span>Name {errors.name && `${errors.name.message}`}</span>
+      <article>
+        <h3>Create New Encounter</h3>
+        <form aria-label="New Encounter Form" onSubmit={handleSubmit(submit)}>
+          <span className={errors.name ? 'warning' : ''}>
+            Name {errors.name && `${errors.name.message}`}
+          </span>
           <input
             {...register('name')}
             aria-label="name"
@@ -66,9 +68,7 @@ export default function AddEncounterModal({
             autoComplete="off"
             autoFocus={isOpen}
           />
-        </label>
-        <label htmlFor="description">
-          <span>
+          <span className={errors.description ? 'warning' : ''}>
             Description {errors.description && `${errors.description.message}`}
           </span>
           <input
@@ -78,27 +78,28 @@ export default function AddEncounterModal({
             aria-invalid={errors.description ? 'true' : undefined}
             autoComplete="off"
           />
-        </label>
-        <button aria-label="submit" type="submit" hidden />
-      </form>
-      <footer>
-        <button
-          type="button"
-          aria-label="cancel"
-          className="secondary"
-          onClick={onClose}
-        >
-          Cancel
-        </button>
-        <button
-          type="button"
-          aria-label="create"
-          disabled={isSubmitting}
-          onClick={handleSubmit(submit)}
-        >
-          Create
-        </button>
-      </footer>
+          <button aria-label="submit" type="submit" hidden />
+        </form>
+        <footer>
+          <button
+            type="button"
+            aria-label="cancel"
+            className="button-secondary-solid"
+            onClick={onClose}
+          >
+            Cancel
+          </button>
+          <button
+            type="button"
+            aria-label="create"
+            disabled={isSubmitting}
+            className="button-primary-solid"
+            onClick={handleSubmit(submit)}
+          >
+            Create
+          </button>
+        </footer>
+      </article>
     </Modal>
   );
 }

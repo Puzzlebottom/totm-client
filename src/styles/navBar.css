@@ -1,34 +1,39 @@
-nav.navbar{
+.navbar{
+  position: fixed;
   display: grid;
   grid-template-columns: auto 1fr auto;
+  width: 100vw;
   column-gap: 1em;
   align-items: center;
   justify-content: space-between;
-  background-color: var(--color-dark-gray);
-  padding: 1em;
+  background-color: var(--color-secondary);
 }
 
-.navbar-brand{
+.navbar-brand {
   color: var(--color-primary);
-  font-size: 1.5em;
+  font-size: 1.5rem;
   font-weight: 900;
   text-decoration: none;
   background-color: transparent;
   border: 5px solid var(--color-primary);
   padding: 0.5rem;
+  margin: 1rem;
+  outline: none;
+
 
   &:hover, &:focus {
     color: var(--color-primary-hover);
-    background-color: var(--color-primary);
+    background-color: var(--color-secondary-active);
     border-color: var(--color-primary-hover);
   }
 }
 
-.nav-link{
+.nav-link {
   color: var(--color-primary);
   text-decoration: none;
   padding: 0.5em;
   margin: 1em;
+  outline: none;
 
   &:hover, &:focus{
     color: var(--color-primary-hover);

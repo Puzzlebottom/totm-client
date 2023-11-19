@@ -1,20 +1,25 @@
-form.search-bar {
+.searchbar {
+  display: flex;
+  justify-content: center;
 
-  >div.search-wrapper {
-    position: relative;
-  
-    >input {
-      position: absolute;
-      
-      &.search-input {
-        background-color: transparent;
-        z-index: 1;
-      }
-  
-      &.search-autocomplete {
-        z-index: 0;
-        color: gray;
-      }
+  >input {
+    min-width: 60vw;
+    position: absolute;
+    font-size: 1.5em;
+
+    &:hover, &:focus {
+      border-color: var(--color-primary-hover);
+    }
+
+    &.search-input {
+      background-color: transparent;
+      z-index: 1;
+    };
+
+    &.search-autocomplete {
+      z-index: 0;
+      color: var(--color-secondary-hover);
+      background-color: var(--color-black);
     }
   }
 }

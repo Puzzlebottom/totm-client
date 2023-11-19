@@ -20,7 +20,7 @@ describe('Home', () => {
     setupTest();
 
     const searchForm = await screen.findByRole('form', {
-      name: 'encounter search form',
+      name: 'encounters',
     });
     const searchInput = await screen.findByRole('textbox', {
       name: 'encounter search input',

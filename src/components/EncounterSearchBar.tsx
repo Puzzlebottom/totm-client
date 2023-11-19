@@ -187,27 +187,25 @@ export default function EncounterSearchBar({
   }, [state.searchResults, filterEncounters]);
 
   return (
-    <form aria-label="encounter search form" className="search-bar">
+    <form aria-label="encounters" role="search" className="searchbar">
       {state.errorMessage && <div>{state.errorMessage}</div>}
-      <div className="search-wrapper">
-        <input
-          type="text"
-          value={state.searchValue}
-          placeholder="Search encounter by name..."
-          onChange={handleChange}
-          onKeyDown={handleKeyDown}
-          className="search-input"
-          aria-label="encounter search input"
-        />
-        <input
-          type="text"
-          value={state.autocompleteValue}
-          className="search-autocomplete"
-          aria-label="encounter search autocomplete"
-          readOnly
-          tabIndex={-1}
-        />
-      </div>
+      <input
+        type="text"
+        value={state.searchValue}
+        placeholder="Search encounter by name..."
+        onChange={handleChange}
+        onKeyDown={handleKeyDown}
+        className="search-input"
+        aria-label="encounter search input"
+      />
+      <input
+        type="text"
+        value={state.autocompleteValue}
+        className="search-autocomplete"
+        aria-label="encounter search autocomplete"
+        readOnly
+        tabIndex={-1}
+      />
     </form>
   );
 }

@@ -25,12 +25,12 @@ export default function api<Request, Response>({
     requestSchema.parse(requestData);
 
     async function apiCall(): Promise<Response> {
-      const response = await fetch(path);
-      const data = await response.json();
-      const validatedEncounters = responseSchema.safeParse(data);
+      // const response = await fetch(path);
+      // const data = await response.json();
+      // const validatedEncounters = responseSchema.safeParse(data);
 
       // Sends local dummy until backend is built
-      // const validatedEncounters = responseSchema.safeParse(encounters);
+      const validatedEncounters = responseSchema.safeParse(encounters);
 
       if (!validatedEncounters.success) {
         return new Promise((resolve) => {

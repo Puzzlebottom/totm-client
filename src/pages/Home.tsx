@@ -8,6 +8,8 @@ import EditEncounterModal from '../components/EditEncounterModal';
 import SelectEncounterModal from '../components/SelectEncounterModal';
 import EncounterCard from '../components/EncounterCard';
 
+import '../styles/home.css';
+
 function Home() {
   const {
     encounters,
@@ -37,24 +39,31 @@ function Home() {
   };
 
   return (
-    <main className="container">
+    <main>
       <EncounterSearchBar
         data={encounters}
         filterEncounters={filterEncounters}
         selectEncounter={handleSelect}
       />
-      <button type="button" aria-label="add encounter" onClick={openAddModal}>
-        <FaPlus />
-      </button>
-      {displayedEncounters
-        .sort((a, b) => b.createdAt - a.createdAt)
-        .map((encounter) => (
-          <EncounterCard
-            key={encounter.id}
-            encounter={encounter}
-            selectEncounter={() => handleSelect(encounter.id)}
-          />
-        ))}
+      <div className="container">
+        <button
+          type="button"
+          aria-label="add encounter"
+          className="add-encounter"
+          onClick={openAddModal}
+        >
+          <FaPlus />
+        </button>
+        {displayedEncounters
+          .sort((a, b) => b.createdAt - a.createdAt)
+          .map((encounter) => (
+            <EncounterCard
+              key={encounter.id}
+              encounter={encounter}
+              selectEncounter={() => handleSelect(encounter.id)}
+            />
+          ))}
+      </div>
       <AddEncounterModal
         isOpen={isAddModalOpen}
         onSubmit={addEncounter}

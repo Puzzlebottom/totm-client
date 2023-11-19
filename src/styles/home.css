@@ -1,0 +1,46 @@
+div.container {
+  width: 80vw;
+  margin: auto;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(auto, max-content);
+  gap: 2em 3em;
+  padding-top: 100px;
+}
+
+button.add-encounter, button.encounter-card {
+  color: var(--color-primary);;
+  background-color: var(--color-secondary);
+  border: 5px solid var(--color-primary) ;
+  border-radius: 12px;
+  padding: 1em;
+  aspect-ratio: 1.5;
+  outline: none;
+
+  >header {
+    font-size: 1.5em;
+    font-weight: bold;
+  }
+
+  >svg {
+    width: 50%;
+    min-height: 50%;
+    fill: var(--color-primary);
+  }
+
+  &:hover, &:focus {
+    color: var(--color-primary-hover);;
+    background-color: var(--color-secondary-active);
+    border: 5px solid var(--color-primary-hover) ;
+    transform: scale(1.02);
+
+    >svg{
+      fill: var(--color-primary-hover);
+    }
+  }
+
+
+}
+
+
+

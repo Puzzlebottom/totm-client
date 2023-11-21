@@ -55,56 +55,53 @@ export default function EditEncounterModal({
 
   return (
     <Modal isOpen={isOpen} hasCloseBtn onClose={onClose}>
-      <h3>Edit Encounter</h3>
-      <form aria-label="Edit Encounter Form" onSubmit={handleSubmit(submit)}>
-        {encounter && (
-          <>
-            <label htmlFor="name">
-              <span>Name {errors.name && `${errors.name.message}`}</span>
-              <input
-                {...register('name')}
-                aria-label="edit name"
-                placeholder="Enter a description"
-                aria-invalid={errors.name ? 'true' : undefined}
-                autoComplete="off"
-                autoFocus={isOpen}
-              />
-            </label>
-            <label htmlFor="description">
-              <span>
-                Description{' '}
-                {errors.description && `${errors.description.message}`}
-              </span>
-              <input
-                {...register('description')}
-                aria-label="edit description"
-                placeholder="Enter a description"
-                aria-invalid={errors.description ? 'true' : undefined}
-                autoComplete="off"
-              />
-            </label>
-            <footer>
-              <button
-                type="button"
-                aria-label="cancel"
-                className="secondary"
-                onClick={onClose}
-              >
-                Cancel
-              </button>
-              <button
-                type="button"
-                aria-label="save"
-                disabled={isSubmitting}
-                onClick={handleSubmit(submit)}
-              >
-                Save
-              </button>
-            </footer>
-          </>
-        )}
+      <article>
+        <h3>Edit Encounter</h3>
+        <form aria-label="Edit Encounter Form" onSubmit={handleSubmit(submit)}>
+          <span className={errors.name ? 'warning' : ''}>
+            Name {errors.name && `${errors.name.message}`}
+          </span>
+          <input
+            {...register('name')}
+            aria-label="edit name"
+            placeholder="Enter a description"
+            aria-invalid={errors.name ? 'true' : undefined}
+            autoComplete="off"
+            autoFocus={isOpen}
+          />
+          <span className={errors.description ? 'warning' : ''}>
+            Description {errors.description && `${errors.description.message}`}
+          </span>
+          <textarea
+            {...register('description')}
+            rows={4}
+            aria-label="edit description"
+            placeholder="Enter a description"
+            aria-invalid={errors.description ? 'true' : undefined}
+            autoComplete="off"
+          />
+        </form>
+        <footer>
+          <button
+            type="button"
+            aria-label="cancel"
+            className="button-secondary-solid"
+            onClick={onClose}
+          >
+            Cancel
+          </button>
+          <button
+            type="button"
+            aria-label="save"
+            disabled={isSubmitting}
+            className="button-primary-solid"
+            onClick={handleSubmit(submit)}
+          >
+            Save
+          </button>
+        </footer>
         <button aria-label="submit" type="submit" hidden />
-      </form>
+      </article>
     </Modal>
   );
 }

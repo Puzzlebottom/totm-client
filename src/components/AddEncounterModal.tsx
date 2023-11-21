@@ -71,8 +71,9 @@ export default function AddEncounterModal({
           <span className={errors.description ? 'warning' : ''}>
             Description {errors.description && `${errors.description.message}`}
           </span>
-          <input
+          <textarea
             {...register('description')}
+            rows={4}
             aria-label="description"
             placeholder="Enter a description"
             aria-invalid={errors.description ? 'true' : undefined}

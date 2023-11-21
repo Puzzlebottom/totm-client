@@ -24,7 +24,8 @@
   --color-secondary-active: var(--primary-800);
   --color-secondary-hover: var(--primary-700);
 
-  --color-warning: #f00;
+  --color-warning: #b00;
+  --color-warning-hover: #f00;
 
   --text-light: var(--color-white);
   --text-dark: var(--color-black);
@@ -50,11 +51,11 @@ button {
   &.button-primary-solid {
     border: none;
     color: var(--color-primary-hover);
-    background-color: var(--color-secondary-active);
+    background-color: var(--color-primary);
     
     &:hover, &:focus {
       color: var(--color-white);
-      background-color: var(--color-primary);
+      background-color: var(--color-primary-active);
       border-color: var(--color-primary-hover);
     }
   }
@@ -83,9 +84,19 @@ button {
       border-color: var(--color-primary-hover);
     }
   }
+
+  &.button-warning {
+    color: var(--color-white);
+    background-color: var(--color-warning);
+    border: none;
+    
+    &:hover, &:focus {
+      background-color: var(--color-warning-hover);
+    }
+  }
 }
 
-input {
+input, textarea {
   color: var(--color-white);
   background-color: var(--color-black);
   padding: 1rem;

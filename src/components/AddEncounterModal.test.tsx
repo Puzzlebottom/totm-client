@@ -105,14 +105,14 @@ describe('Add Encounter modal', () => {
     ).toBeInTheDocument();
   });
 
-  it('should attempt to submit when the Enter key is pressed in either input', async () => {
+  it('should attempt to submit when the Enter key is pressed in the name input', async () => {
     setupTest();
     const user = userEvent.setup();
     const nameInput = await screen.findByLabelText('name');
     const descriptionInput = await screen.findByLabelText('description');
 
-    await user.type(nameInput, 'Test Name');
-    await user.type(descriptionInput, 'Test Description{Enter}');
+    await user.type(descriptionInput, 'Test Description');
+    await user.type(nameInput, 'Test Name{Enter}');
 
     expect(onCloseMock).toHaveBeenCalled();
     expect(onSubmitMock).toHaveBeenCalledWith(
@@ -121,5 +121,18 @@ describe('Add Encounter modal', () => {
         description: 'Test Description',
       })
     );
+  });
+
+  it('should not attempt to submit when the Enter key is pressed in the description input', async () => {
+    setupTest();
+    const user = userEvent.setup();
+    const nameInput = await screen.findByLabelText('name');
+    const descriptionInput = await screen.findByLabelText('description');
+
+    await user.type(nameInput, 'Test Name');
+    await user.type(descriptionInput, 'Test Description{Enter}');
+
+    expect(onCloseMock).not.toHaveBeenCalled();
+    expect(onSubmitMock).not.toHaveBeenCalled();
   });
 });

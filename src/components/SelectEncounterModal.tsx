@@ -35,7 +35,7 @@ export default function SelectEncounterModal({
 
   return (
     <Modal isOpen={isOpen} hasCloseBtn onClose={onClose}>
-      <article>
+      <article aria-label="Select Encounter Modal">
         {encounter && (
           <>
             <h3>{encounter.name}</h3>

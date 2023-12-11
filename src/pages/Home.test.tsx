@@ -19,7 +19,7 @@ describe('Home', () => {
   it('should render an encounter search bar', async () => {
     setupTest();
 
-    const searchForm = await screen.findByRole('form', {
+    const searchForm = await screen.findByRole('search', {
       name: 'encounters',
     });
     const searchInput = await screen.findByRole('textbox', {
@@ -61,8 +61,8 @@ describe('Home', () => {
     setupTest();
 
     expect(
-      await screen.findByRole('form', {
-        name: 'Select Encounter Form',
+      await screen.findByRole('article', {
+        name: 'Select Encounter Modal',
         hidden: true,
       })
     ).toBeInTheDocument();

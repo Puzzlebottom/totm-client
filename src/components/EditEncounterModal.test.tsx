@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, afterEach } from 'vitest';
-import { render, screen } from '@testing-library/react';
+import { fireEvent, render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
 import { Encounter } from '../interfaces/Encounter';
@@ -134,23 +134,34 @@ describe('Edit Encounter Modal', () => {
     expect(onCloseMock).toHaveBeenCalled();
   });
 
-  it('should attempt to submit when the Enter key is pressed in either input', async () => {
+  it('should attempt to submit when the Enter key is pressed in the name input', async () => {
     setupTest();
     const user = userEvent.setup();
     const nameInput = await screen.findByLabelText('edit name');
-    const descriptionInput = await screen.findByLabelText('edit description');
 
     await userEvent.clear(nameInput);
-    await userEvent.clear(descriptionInput);
-    await user.type(nameInput, 'Updated Name');
-    await user.type(descriptionInput, 'Updated Description{Enter}');
+    await user.type(nameInput, 'Updated Name{Enter}');
 
     expect(onCloseMock).toHaveBeenCalled();
     expect(onSubmitMock).toHaveBeenCalledWith(
       expect.objectContaining({
         name: 'Updated Name',
-        description: 'Updated Description',
+        description: 'A Cool Description',
       })
     );
+  });
+
+  it('should not attempt to submit when the Enter key is pressed in the description input', () => {
+    it('should attempt to submit when the Enter key is pressed in the name input', async () => {
+      setupTest();
+      const user = userEvent.setup();
+      const descriptionInput = await screen.findByLabelText('edit description');
+
+      await userEvent.clear(descriptionInput);
+      await user.type(descriptionInput, 'Updated Description{Enter}');
+
+      expect(onCloseMock).not.toHaveBeenCalled();
+      expect(onSubmitMock).not.toHaveBeenCalled();
+    });
   });
 });

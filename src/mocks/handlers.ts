@@ -1,12 +1,13 @@
 /* eslint-disable import/no-extraneous-dependencies */
-import { HttpResponse, http } from 'msw';
+import { graphql, HttpResponse } from 'msw';
+import { GetEncountersDocument } from '../__generated__/graphql';
 import encounters from './encounters';
 
-// const BASE_URL: string | undefined = process.env.API_URL;
-
 const handlers = [
-  http.get('https://dummy/encounters', () => {
-    return HttpResponse.json(encounters, { status: 200 });
+  graphql.query(GetEncountersDocument, () => {
+    return HttpResponse.json({
+      data: { allEncounters: encounters },
+    });
   }),
 ];
 

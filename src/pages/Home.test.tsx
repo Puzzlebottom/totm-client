@@ -1,17 +1,20 @@
 import { describe, it, expect } from 'vitest';
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { render, screen } from '@testing-library/react';
+import { ApolloClient, InMemoryCache, ApolloProvider } from '@apollo/client';
 
 import userEvent from '@testing-library/user-event';
 import Home from './Home';
 
 const setupTest = () => {
-  const queryClient = new QueryClient();
+  const client = new ApolloClient({
+    uri: 'http://localhost:3000/graphql',
+    cache: new InMemoryCache(),
+  });
 
   render(
-    <QueryClientProvider client={queryClient}>
+    <ApolloProvider client={client}>
       <Home />
-    </QueryClientProvider>
+    </ApolloProvider>
   );
 };
 

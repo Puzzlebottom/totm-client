@@ -1,8 +1,7 @@
 import { useCallback, useEffect, useReducer } from 'react';
-import { useQuery } from '@tanstack/react-query';
-
-import { Encounter } from '../interfaces/Encounter';
+import { useQuery } from '@apollo/client';
 import { getEncounters } from '../api/encounterRequests';
+import { Encounter } from '../interfaces/Encounter';
 
 const ACTIONS = {
   SET_ENCOUNTERS: 'SET_ENCOUNTERS',
@@ -150,14 +149,11 @@ export default function useEncounters(): {
     dispatch({ type: ACTIONS.RUN_ENCOUNTER, encounterId });
   };
 
-  const { data } = useQuery({
-    queryKey: ['encounters'],
-    queryFn: () => getEncounters(),
-  });
+  const { data } = useQuery(getEncounters);
 
   useEffect(() => {
     if (data) {
-      setEncounters(data);
+      setEncounters(data.allEncounters);
     }
   }, [data]);
 

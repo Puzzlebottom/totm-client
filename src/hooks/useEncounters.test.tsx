@@ -1,16 +1,16 @@
 import { describe, it, expect, vi } from 'vitest';
 import { renderHook, act } from '@testing-library/react';
-import { afterEach } from 'node:test';
 import useEncounters, { Action, reducer } from './useEncounters';
 import { Encounter } from '../interfaces/Encounter';
 
-vi.mock('@tanstack/react-query', async () => {
+vi.mock('@apollo/client', async () => {
   const encounters: { default: Encounter[] } = await vi.importActual(
     '../mocks/encounters'
   );
+
   return {
     useQuery: vi.fn().mockReturnValue({
-      data: encounters.default,
+      data: { allEncounters: encounters.default },
       isLoading: false,
       error: {},
     }),
@@ -29,10 +29,6 @@ const mockEncounter: Encounter = {
 };
 
 describe('useEncounters', () => {
-  afterEach(() => {
-    vi.restoreAllMocks();
-  });
-
   it('should return a list of all saved encounters', () => {
     const { result } = renderHook(useEncounters);
 
@@ -42,6 +38,7 @@ describe('useEncounters', () => {
 
   it('should return a list of encounters to be displayed', () => {
     const { result } = renderHook(useEncounters);
+    console.log(result);
 
     expect(result.current).toHaveProperty('displayedEncounters');
     expect(result.current.displayedEncounters).toHaveLength(3);

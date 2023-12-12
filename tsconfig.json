@@ -24,6 +24,7 @@
   },
   "include": [
     "vite.config.ts",
+    "codegen.ts",
     ".eslintrc.cjs",
     "src"
   ],

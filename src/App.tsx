@@ -1,5 +1,4 @@
 import { HashRouter, Routes, Route } from 'react-router-dom';
-// import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ApolloClient, InMemoryCache, ApolloProvider } from '@apollo/client';
 import Home from './pages/Home';
 import NotFound from './pages/NotFound';
@@ -14,8 +13,6 @@ export function App() {
     </Routes>
   );
 }
-
-// const queryClient = new QueryClient();
 
 const client = new ApolloClient({
   uri: 'http://localhost:3000/graphql',

@@ -19,6 +19,10 @@ vi.mock('@apollo/client', async () => {
     '../mocks/encounters'
   );
 
+  interface MutationVariables {
+    variables: Encounter | { id: number };
+  }
+
   return {
     useQuery: vi.fn().mockReturnValue({
       data: { allEncounters: encounters.default },
@@ -27,8 +31,7 @@ vi.mock('@apollo/client', async () => {
     }),
 
     useMutation: vi.fn().mockReturnValue([
-      ({ variables }) => {
-        console.log(variables);
+      ({ variables }: MutationVariables) => {
         return {
           data: {
             createEncounter: mockEncounter,

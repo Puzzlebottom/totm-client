@@ -139,7 +139,10 @@ export default function useEncounters(): {
       },
     });
 
-    dispatch({ type: ACTIONS.ADD_ENCOUNTER, encounter: data?.createEncounter });
+    dispatch({
+      type: ACTIONS.ADD_ENCOUNTER,
+      encounter: data?.createEncounter as Encounter,
+    });
   };
 
   const updateEncounter = (encounter: Encounter) => {
@@ -147,7 +150,7 @@ export default function useEncounters(): {
   };
 
   const deleteEncounter = async (encounterId: number) => {
-    const { data } = await removeEncounter({
+    await removeEncounter({
       variables: {
         id: encounterId,
       },
@@ -155,7 +158,7 @@ export default function useEncounters(): {
 
     dispatch({
       type: ACTIONS.DELETE_ENCOUNTER,
-      encounterId: data?.deleteEncounter.id,
+      encounterId,
     });
   };
 
@@ -175,7 +178,7 @@ export default function useEncounters(): {
 
   useEffect(() => {
     if (data) {
-      setEncounters(data.allEncounters);
+      setEncounters(data.allEncounters as Encounter[]);
     }
   }, [data]);
 

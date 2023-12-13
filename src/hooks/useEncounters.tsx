@@ -1,6 +1,10 @@
 import { useCallback, useEffect, useReducer } from 'react';
-import { useQuery } from '@apollo/client';
-import { getEncounters } from '../api/encounterRequests';
+import { useQuery, useMutation } from '@apollo/client';
+import {
+  GET_ENCOUNTERS,
+  CREATE_ENCOUNTER,
+  DELETE_ENCOUNTER,
+} from '../api/encounterRequests';
 import { Encounter } from '../interfaces/Encounter';
 
 const ACTIONS = {
@@ -120,21 +124,39 @@ export default function useEncounters(): {
   };
 
   const [state, dispatch] = useReducer(reducer, initialState);
+  const [createEncounter] = useMutation(CREATE_ENCOUNTER);
+  const [removeEncounter] = useMutation(DELETE_ENCOUNTER);
 
   const setEncounters = (encounters: Encounter[]) => {
     dispatch({ type: ACTIONS.SET_ENCOUNTERS, encounters });
   };
 
-  const addEncounter = (encounter: Encounter) => {
-    dispatch({ type: ACTIONS.ADD_ENCOUNTER, encounter });
+  const addEncounter = async (encounter: Encounter) => {
+    const { data } = await createEncounter({
+      variables: {
+        name: encounter.name,
+        description: encounter.description,
+      },
+    });
+
+    dispatch({ type: ACTIONS.ADD_ENCOUNTER, encounter: data?.createEncounter });
   };
 
   const updateEncounter = (encounter: Encounter) => {
     dispatch({ type: ACTIONS.UPDATE_ENCOUNTER, encounter });
   };
 
-  const deleteEncounter = (encounterId: number) => {
-    dispatch({ type: ACTIONS.DELETE_ENCOUNTER, encounterId });
+  const deleteEncounter = async (encounterId: number) => {
+    const { data } = await removeEncounter({
+      variables: {
+        id: encounterId,
+      },
+    });
+
+    dispatch({
+      type: ACTIONS.DELETE_ENCOUNTER,
+      encounterId: data?.deleteEncounter.id,
+    });
   };
 
   const selectEncounter = (encounterId: number) => {
@@ -149,7 +171,7 @@ export default function useEncounters(): {
     dispatch({ type: ACTIONS.RUN_ENCOUNTER, encounterId });
   };
 
-  const { data } = useQuery(getEncounters);
+  const { data } = useQuery(GET_ENCOUNTERS);
 
   useEffect(() => {
     if (data) {

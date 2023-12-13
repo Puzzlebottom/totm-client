@@ -55,7 +55,7 @@ function Home() {
           <FaPlus />
         </button>
         {[...displayedEncounters]
-          .sort((a, b) => b.createdAt - a.createdAt)
+          .sort((a, b) => b.id - a.id)
           .map((encounter) => (
             <EncounterCard
               key={encounter.id}

@@ -3,6 +3,17 @@ import { renderHook, act } from '@testing-library/react';
 import useEncounters, { Action, reducer } from './useEncounters';
 import { Encounter } from '../interfaces/Encounter';
 
+const mockEncounter: Encounter = {
+  id: 3,
+  name: 'Test Encounter 4',
+  description: 'Cool Description 4',
+  isActive: false,
+  round: 0,
+  turn: 0,
+  owner: 0,
+  createdAt: Date.now(),
+};
+
 vi.mock('@apollo/client', async () => {
   const encounters: { default: Encounter[] } = await vi.importActual(
     '../mocks/encounters'
@@ -14,19 +25,22 @@ vi.mock('@apollo/client', async () => {
       isLoading: false,
       error: {},
     }),
+
+    useMutation: vi.fn().mockReturnValue([
+      ({ variables }) => {
+        console.log(variables);
+        return {
+          data: {
+            createEncounter: mockEncounter,
+            deleteEncounter: {
+              id: variables.id,
+            },
+          },
+        };
+      },
+    ]),
   };
 });
-
-const mockEncounter: Encounter = {
-  id: 4,
-  name: 'Test Encounter 4',
-  description: 'Cool Description 4',
-  isActive: false,
-  round: 0,
-  turn: 0,
-  owner: 0,
-  createdAt: Date.now(),
-};
 
 describe('useEncounters', () => {
   it('should return a list of all saved encounters', () => {
@@ -38,7 +52,6 @@ describe('useEncounters', () => {
 
   it('should return a list of encounters to be displayed', () => {
     const { result } = renderHook(useEncounters);
-    console.log(result);
 
     expect(result.current).toHaveProperty('displayedEncounters');
     expect(result.current.displayedEncounters).toHaveLength(3);
@@ -94,31 +107,31 @@ describe('useEncounters', () => {
     );
   });
 
-  it('should delete an encounter from both encounters and displayedEncounters', () => {
+  it('should delete an encounter from both encounters and displayedEncounters', async () => {
     const { result } = renderHook(useEncounters);
 
     expect(result.current.encounters).toHaveLength(3);
     expect(result.current.displayedEncounters).toHaveLength(3);
 
-    act(() => result.current.deleteEncounter(0));
+    await act(async () => result.current.deleteEncounter(0));
 
     expect(result.current.encounters).toHaveLength(2);
     expect(result.current.displayedEncounters).toHaveLength(2);
   });
 
-  it('should add new encounters to both encounters and displayedEncounters', () => {
+  it('should add new encounters to both encounters and displayedEncounters', async () => {
     const { result } = renderHook(useEncounters);
 
     expect(result.current.encounters).toHaveLength(3);
     expect(result.current.displayedEncounters).toHaveLength(3);
 
-    act(() => result.current.addEncounter(mockEncounter));
+    await act(async () => result.current.addEncounter(mockEncounter));
 
     expect(result.current.encounters).toContain(mockEncounter);
     expect(result.current.displayedEncounters).toContain(mockEncounter);
   });
 
-  it('should reset the displayedEncounters to match encounters when an encounter is added', () => {
+  it('should reset the displayedEncounters to match encounters when an encounter is added', async () => {
     const { result } = renderHook(useEncounters);
 
     expect(result.current.encounters).toEqual(
@@ -129,7 +142,7 @@ describe('useEncounters', () => {
 
     expect(result.current.displayedEncounters).toEqual([]);
 
-    act(() => result.current.addEncounter(mockEncounter));
+    await act(async () => result.current.addEncounter(mockEncounter));
 
     expect(result.current.displayedEncounters).toHaveLength(4);
     expect(result.current.displayedEncounters).toEqual(
@@ -137,10 +150,10 @@ describe('useEncounters', () => {
     );
   });
 
-  it('should modify both encounters and displayedEncounters when an encounter is updated', () => {
+  it('should modify both encounters and displayedEncounters when an encounter is updated', async () => {
     const { result } = renderHook(useEncounters);
 
-    act(() => result.current.addEncounter(mockEncounter));
+    await act(async () => result.current.addEncounter(mockEncounter));
 
     expect(result.current.encounters[3].name).toEqual('Test Encounter 4');
     expect(result.current.encounters[3].description).toEqual(

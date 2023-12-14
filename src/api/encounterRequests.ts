@@ -43,3 +43,22 @@ export const DELETE_ENCOUNTER = gql(`
     }
   }
 `);
+
+export const UPDATE_ENCOUNTER = gql(`
+  mutation updateEncounter($encounter: EncounterAttributes!) {
+    updateEncounter(
+      attributes: $encounter
+    ) {
+      encounter {
+        id
+        name
+        description
+        isActive
+        round
+        turn
+        owner
+        createdAt
+      }
+    }
+  }
+`);

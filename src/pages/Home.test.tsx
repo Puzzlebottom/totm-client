@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { render, screen } from '@testing-library/react';
+import { render, screen, waitFor } from '@testing-library/react';
 import { ApolloClient, InMemoryCache, ApolloProvider } from '@apollo/client';
 
 import userEvent from '@testing-library/user-event';
@@ -153,7 +153,11 @@ describe('Home', () => {
       await user.click(deleteButton);
       await user.click(confirmButton);
 
-      expect(await screen.findAllByLabelText('encounter card')).toHaveLength(2);
+      await waitFor(async () =>
+        expect(await screen.findAllByLabelText('encounter card')).toHaveLength(
+          2
+        )
+      );
     });
 
     it('should update edited encounters', async () => {
@@ -188,12 +192,14 @@ describe('Home', () => {
 
       expect(updatedEncounterCards).toHaveLength(3);
 
-      expect(updatedEncounterCards[0]).not.toHaveTextContent(
-        'Test Encounter 3'
-      );
-      expect(updatedEncounterCards[0]).not.toHaveTextContent(
-        'Cool description 3'
-      );
+      await waitFor(() => {
+        expect(updatedEncounterCards[0]).not.toHaveTextContent(
+          'Test Encounter 3'
+        );
+        expect(updatedEncounterCards[0]).not.toHaveTextContent(
+          'Cool description 3'
+        );
+      });
       expect(updatedEncounterCards[0]).toHaveTextContent('Updated Name');
       expect(updatedEncounterCards[0]).toHaveTextContent('Updated Description');
     });

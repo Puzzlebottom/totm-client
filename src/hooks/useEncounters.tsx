@@ -4,6 +4,7 @@ import {
   GET_ENCOUNTERS,
   CREATE_ENCOUNTER,
   DELETE_ENCOUNTER,
+  UPDATE_ENCOUNTER,
 } from '../api/encounterRequests';
 import { Encounter } from '../interfaces/Encounter';
 
@@ -124,15 +125,16 @@ export default function useEncounters(): {
   };
 
   const [state, dispatch] = useReducer(reducer, initialState);
-  const [createEncounter] = useMutation(CREATE_ENCOUNTER);
-  const [removeEncounter] = useMutation(DELETE_ENCOUNTER);
+  const [create] = useMutation(CREATE_ENCOUNTER);
+  const [remove] = useMutation(DELETE_ENCOUNTER);
+  const [update] = useMutation(UPDATE_ENCOUNTER);
 
   const setEncounters = (encounters: Encounter[]) => {
     dispatch({ type: ACTIONS.SET_ENCOUNTERS, encounters });
   };
 
   const addEncounter = async (encounter: Encounter) => {
-    const { data } = await createEncounter({
+    const { data } = await create({
       variables: {
         name: encounter.name,
         description: encounter.description,
@@ -145,12 +147,23 @@ export default function useEncounters(): {
     });
   };
 
-  const updateEncounter = (encounter: Encounter) => {
-    dispatch({ type: ACTIONS.UPDATE_ENCOUNTER, encounter });
+  const updateEncounter = async (encounter: Encounter) => {
+    const { id, name, description, isActive, round, turn, owner } = encounter;
+
+    const { data } = await update({
+      variables: {
+        encounter: { id, name, description, isActive, round, turn, owner },
+      },
+    });
+
+    dispatch({
+      type: ACTIONS.UPDATE_ENCOUNTER,
+      encounter: data?.updateEncounter.encounter as Encounter,
+    });
   };
 
   const deleteEncounter = async (encounterId: number) => {
-    await removeEncounter({
+    await remove({
       variables: {
         id: encounterId,
       },

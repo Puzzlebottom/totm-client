@@ -4,6 +4,7 @@ import {
   GetEncountersDocument,
   CreateEncounterDocument,
   DeleteEncounterDocument,
+  UpdateEncounterDocument,
 } from '../__generated__/graphql';
 import encounters from './encounters';
 
@@ -36,6 +37,16 @@ const handlers = [
       data: {
         deleteEncounter: {
           id: variables.id,
+        },
+      },
+    });
+  }),
+
+  graphql.mutation(UpdateEncounterDocument, ({ variables }) => {
+    return HttpResponse.json({
+      data: {
+        updateEncounter: {
+          encounter: variables.encounter,
         },
       },
     });

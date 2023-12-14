@@ -38,6 +38,7 @@ vi.mock('@apollo/client', async () => {
             deleteEncounter: {
               id: variables.id,
             },
+            updateEncounter: variables,
           },
         };
       },
@@ -163,7 +164,7 @@ describe('useEncounters', () => {
       'Cool Description 4'
     );
 
-    act(() =>
+    await act(async () =>
       result.current.updateEncounter({
         ...mockEncounter,
         name: 'Updated Name',

@@ -1,55 +1,10 @@
 /* eslint-disable import/prefer-default-export */
 import { gql } from '../__generated__';
 
-export const GET_ENCOUNTERS = gql(`
-  query getEncounters {
-    allEncounters {
-      id
-      name
-      description
-      isActive
-      round
-      turn
-      owner
-      createdAt
-    }
-  }
-`);
-
-export const CREATE_ENCOUNTER = gql(`
-  mutation createEncounter($name: String!, $description: String!) {
-    createEncounter(
-      name: $name, 
-      description: $description
-    ) {
-      id
-      name
-      description
-      isActive
-      round
-      turn
-      owner
-      createdAt
-    }
-  }
-`);
-
-export const DELETE_ENCOUNTER = gql(`
-  mutation deleteEncounter($id: Int!) {
-    deleteEncounter(
-      id: $id
-    ) {
-      id
-    }
-  }
-`);
-
-export const UPDATE_ENCOUNTER = gql(`
-  mutation updateEncounter($encounter: EncounterAttributes!) {
-    updateEncounter(
-      attributes: $encounter
-    ) {
-      encounter {
+const encounterRequests = {
+  GET_ALL: gql(`
+    query getEncounters {
+      allEncounters {
         id
         name
         description
@@ -60,5 +15,54 @@ export const UPDATE_ENCOUNTER = gql(`
         createdAt
       }
     }
-  }
-`);
+  `),
+
+  CREATE: gql(`
+    mutation createEncounter($name: String!, $description: String!) {
+      createEncounter(
+        name: $name, 
+        description: $description
+      ) {
+        id
+        name
+        description
+        isActive
+        round
+        turn
+        owner
+        createdAt
+      }
+    }
+  `),
+
+  DELETE: gql(`
+    mutation deleteEncounter($id: Int!) {
+      deleteEncounter(
+        id: $id
+      ) {
+        id
+      }
+    }
+  `),
+
+  UPDATE: gql(`
+    mutation updateEncounter($encounter: EncounterAttributes!) {
+      updateEncounter(
+        attributes: $encounter
+      ) {
+        encounter {
+          id
+          name
+          description
+          isActive
+          round
+          turn
+          owner
+          createdAt
+        }
+      }
+    }
+  `),
+};
+
+export default encounterRequests;

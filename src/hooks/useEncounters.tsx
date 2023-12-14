@@ -1,11 +1,6 @@
 import { useCallback, useEffect, useReducer } from 'react';
 import { useQuery, useMutation } from '@apollo/client';
-import {
-  GET_ENCOUNTERS,
-  CREATE_ENCOUNTER,
-  DELETE_ENCOUNTER,
-  UPDATE_ENCOUNTER,
-} from '../api/encounterRequests';
+import encounterRequests from '../api/encounterRequests';
 import { Encounter } from '../interfaces/Encounter';
 
 const ACTIONS = {
@@ -125,9 +120,9 @@ export default function useEncounters(): {
   };
 
   const [state, dispatch] = useReducer(reducer, initialState);
-  const [create] = useMutation(CREATE_ENCOUNTER);
-  const [remove] = useMutation(DELETE_ENCOUNTER);
-  const [update] = useMutation(UPDATE_ENCOUNTER);
+  const [create] = useMutation(encounterRequests.CREATE);
+  const [remove] = useMutation(encounterRequests.DELETE);
+  const [update] = useMutation(encounterRequests.UPDATE);
 
   const setEncounters = (encounters: Encounter[]) => {
     dispatch({ type: ACTIONS.SET_ENCOUNTERS, encounters });
@@ -141,10 +136,12 @@ export default function useEncounters(): {
       },
     });
 
-    dispatch({
-      type: ACTIONS.ADD_ENCOUNTER,
-      encounter: data?.createEncounter as Encounter,
-    });
+    if (data) {
+      dispatch({
+        type: ACTIONS.ADD_ENCOUNTER,
+        encounter: data.createEncounter as Encounter,
+      });
+    }
   };
 
   const updateEncounter = async (encounter: Encounter) => {
@@ -156,23 +153,27 @@ export default function useEncounters(): {
       },
     });
 
-    dispatch({
-      type: ACTIONS.UPDATE_ENCOUNTER,
-      encounter: data?.updateEncounter.encounter as Encounter,
-    });
+    if (data) {
+      dispatch({
+        type: ACTIONS.UPDATE_ENCOUNTER,
+        encounter: data.updateEncounter.encounter as Encounter,
+      });
+    }
   };
 
   const deleteEncounter = async (encounterId: number) => {
-    await remove({
+    const { data } = await remove({
       variables: {
         id: encounterId,
       },
     });
 
-    dispatch({
-      type: ACTIONS.DELETE_ENCOUNTER,
-      encounterId,
-    });
+    if (data) {
+      dispatch({
+        type: ACTIONS.DELETE_ENCOUNTER,
+        encounterId,
+      });
+    }
   };
 
   const selectEncounter = (encounterId: number) => {
@@ -187,7 +188,7 @@ export default function useEncounters(): {
     dispatch({ type: ACTIONS.RUN_ENCOUNTER, encounterId });
   };
 
-  const { data } = useQuery(GET_ENCOUNTERS);
+  const { data } = useQuery(encounterRequests.GET_ALL);
 
   useEffect(() => {
     if (data) {

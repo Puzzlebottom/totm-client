@@ -1,29 +1,16 @@
-import { HashRouter, Routes, Route } from 'react-router-dom';
-import Home from './pages/Home';
-import NotFound from './pages/NotFound';
-import NavBar from './components/NavBar';
-import './index.css';
 import AuthProvider from './providers/AuthProvider';
 import GraphQLProvider from './providers/GraphQLProvider';
+import Routes from './providers/RouterProvider';
+import './index.css';
 
-export function App() {
+function App() {
   return (
-    <Routes>
-      <Route path="/" element={<Home />} />
-      <Route path="*" element={<NotFound />} />
-    </Routes>
+    <AuthProvider>
+      <GraphQLProvider>
+        <Routes />
+      </GraphQLProvider>
+    </AuthProvider>
   );
 }
 
-export function WrappedApp() {
-  return (
-    <HashRouter>
-      <AuthProvider>
-        <GraphQLProvider>
-          <NavBar links={['Heroes', 'Monsters', 'Locations', 'Treasure']} />
-          <App />
-        </GraphQLProvider>
-      </AuthProvider>
-    </HashRouter>
-  );
-}
+export default App;

@@ -9,6 +9,7 @@ import SelectEncounterModal from '../components/SelectEncounterModal';
 import EncounterCard from '../components/EncounterCard';
 
 import '../styles/home.css';
+import NavBar from '../components/NavBar';
 
 function Home() {
   const {
@@ -39,51 +40,54 @@ function Home() {
   };
 
   return (
-    <main>
-      <EncounterSearchBar
-        data={encounters}
-        filterEncounters={filterEncounters}
-        selectEncounter={handleSelect}
-      />
-      <div className="container">
-        <button
-          type="button"
-          aria-label="add encounter"
-          className="add-encounter"
-          onClick={openAddModal}
-        >
-          <FaPlus />
-        </button>
-        {[...displayedEncounters]
-          .sort((a, b) => b.id - a.id)
-          .map((encounter) => (
-            <EncounterCard
-              key={encounter.id}
-              encounter={encounter}
-              selectEncounter={() => handleSelect(encounter.id)}
-            />
-          ))}
-      </div>
-      <AddEncounterModal
-        isOpen={isAddModalOpen}
-        onSubmit={addEncounter}
-        onClose={closeAddModal}
-      />
-      <SelectEncounterModal
-        encounter={selectedEncounter}
-        isOpen={isSelectModalOpen}
-        deleteEncounter={deleteEncounter}
-        editEncounter={handleEdit}
-        runEncounter={runEncounter}
-        onClose={closeSelectModal}
-      />
-      <EditEncounterModal
-        encounter={selectedEncounter}
-        isOpen={isEditModalOpen}
-        onSubmit={updateEncounter}
-        onClose={closeEditModal}
-      />
-    </main>
+    <>
+      <NavBar links={['Heroes', 'Monsters', 'Locations', 'Treasure']} />
+      <main>
+        <EncounterSearchBar
+          data={encounters}
+          filterEncounters={filterEncounters}
+          selectEncounter={handleSelect}
+        />
+        <div className="container">
+          <button
+            type="button"
+            aria-label="add encounter"
+            className="add-encounter"
+            onClick={openAddModal}
+          >
+            <FaPlus />
+          </button>
+          {[...displayedEncounters]
+            .sort((a, b) => b.id - a.id)
+            .map((encounter) => (
+              <EncounterCard
+                key={encounter.id}
+                encounter={encounter}
+                selectEncounter={() => handleSelect(encounter.id)}
+              />
+            ))}
+        </div>
+        <AddEncounterModal
+          isOpen={isAddModalOpen}
+          onSubmit={addEncounter}
+          onClose={closeAddModal}
+        />
+        <SelectEncounterModal
+          encounter={selectedEncounter}
+          isOpen={isSelectModalOpen}
+          deleteEncounter={deleteEncounter}
+          editEncounter={handleEdit}
+          runEncounter={runEncounter}
+          onClose={closeSelectModal}
+        />
+        <EditEncounterModal
+          encounter={selectedEncounter}
+          isOpen={isEditModalOpen}
+          onSubmit={updateEncounter}
+          onClose={closeEditModal}
+        />
+      </main>
+    </>
   );
 }
 

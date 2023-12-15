@@ -42,12 +42,7 @@ export default function AddEncounterModal({
   });
 
   const submit = (data: FieldValues) => {
-    onSubmit({
-      ...testEncounter,
-      id: ++testEncounter.id,
-      ...data,
-      createdAt: Date.now(),
-    });
+    onSubmit({ ...testEncounter, ...data });
     reset();
     onClose();
   };

@@ -1,9 +1,10 @@
 import { HashRouter, Routes, Route } from 'react-router-dom';
-import { ApolloClient, InMemoryCache, ApolloProvider } from '@apollo/client';
 import Home from './pages/Home';
 import NotFound from './pages/NotFound';
 import NavBar from './components/NavBar';
 import './index.css';
+import AuthProvider from './providers/AuthProvider';
+import GraphQLProvider from './providers/GraphQLProvider';
 
 export function App() {
   return (
@@ -14,18 +15,15 @@ export function App() {
   );
 }
 
-const client = new ApolloClient({
-  uri: 'http://localhost:3000/graphql',
-  cache: new InMemoryCache(),
-});
-
 export function WrappedApp() {
   return (
     <HashRouter>
-      <ApolloProvider client={client}>
-        <NavBar links={['Heroes', 'Monsters', 'Locations', 'Treasure']} />
-        <App />
-      </ApolloProvider>
+      <AuthProvider>
+        <GraphQLProvider>
+          <NavBar links={['Heroes', 'Monsters', 'Locations', 'Treasure']} />
+          <App />
+        </GraphQLProvider>
+      </AuthProvider>
     </HashRouter>
   );
 }

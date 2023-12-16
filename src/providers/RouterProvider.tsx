@@ -18,10 +18,21 @@ function ProtectedRoute() {
   return <Outlet />;
 }
 
+interface Route {
+  path: string;
+  element: JSX.Element;
+}
+
+interface RouteWrapper {
+  path: string;
+  element: JSX.Element;
+  children: Route[];
+}
+
 function Routes() {
   const { token } = useAuth();
 
-  const routesForPublic = [
+  const routesForPublic: Route[] = [
     {
       path: '/about',
       element: <div>About</div>,
@@ -32,7 +43,7 @@ function Routes() {
     },
   ];
 
-  const routesForAuthenticatedOnly = [
+  const routesForAuthenticatedOnly: RouteWrapper[] = [
     {
       path: '/',
       element: <ProtectedRoute />,

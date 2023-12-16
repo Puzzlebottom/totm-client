@@ -1,20 +1,93 @@
 import { describe, it, expect } from 'vitest';
 import { render, screen, waitFor } from '@testing-library/react';
-import { ApolloClient, InMemoryCache, ApolloProvider } from '@apollo/client';
-
+import { MockedProvider } from '@apollo/client/testing';
+import { MemoryRouter } from 'react-router-dom';
 import userEvent from '@testing-library/user-event';
 import Home from './Home';
+import encounterRequests from '../api/encounterRequests';
+import encountersMock from '../mocks/encounters';
 
 const setupTest = () => {
-  const client = new ApolloClient({
-    uri: 'http://localhost:3000/graphql',
-    cache: new InMemoryCache(),
-  });
+  const mocks = [
+    {
+      request: { query: encounterRequests.GET_ALL },
+      result: { data: { allEncounters: encountersMock } },
+    },
+    {
+      request: {
+        query: encounterRequests.CREATE,
+        variables: {
+          name: 'Test Encounter 4',
+          description: 'A Cool Description',
+        },
+      },
+      result: {
+        data: {
+          createEncounter: {
+            id: 3,
+            name: 'Test Encounter 4',
+            description: 'A Cool Description',
+            isActive: false,
+            round: 0,
+            turn: 0,
+            owner: 0,
+            createdAt: Date.now(),
+          },
+        },
+      },
+    },
+    {
+      request: {
+        query: encounterRequests.DELETE,
+        variables: {
+          id: 2,
+        },
+      },
+      result: {
+        data: {
+          id: 2,
+        },
+      },
+    },
+    {
+      request: {
+        query: encounterRequests.UPDATE,
+        variables: {
+          encounter: {
+            id: 2,
+            name: 'Updated Name',
+            description: 'Updated Description',
+            isActive: false,
+            round: 0,
+            turn: 0,
+            owner: 0,
+          },
+        },
+      },
+      result: {
+        data: {
+          updateEncounter: {
+            encounter: {
+              id: 2,
+              name: 'Updated Name',
+              description: 'Updated Description',
+              isActive: false,
+              round: 0,
+              turn: 0,
+              owner: 0,
+            },
+          },
+        },
+      },
+    },
+  ];
 
   render(
-    <ApolloProvider client={client}>
-      <Home />
-    </ApolloProvider>
+    <MockedProvider mocks={mocks}>
+      <MemoryRouter initialEntries={['/']}>
+        <Home />
+      </MemoryRouter>
+    </MockedProvider>
   );
 };
 
@@ -111,12 +184,12 @@ describe('Home', () => {
   describe('Encounter List', () => {
     it('should render the encounter cards', async () => {
       setupTest();
-
       expect(await screen.findAllByLabelText('encounter card')).toHaveLength(3);
     });
 
     it('should add new encounters', async () => {
       setupTest();
+
       const user = userEvent.setup();
 
       expect(await screen.findAllByLabelText('encounter card')).toHaveLength(3);
@@ -127,7 +200,7 @@ describe('Home', () => {
       const nameInput = await screen.findByLabelText('name');
       const descriptionInput = await screen.findByLabelText('description');
 
-      await user.type(nameInput, 'New Encounter');
+      await user.type(nameInput, 'Test Encounter 4');
       await user.type(descriptionInput, 'A Cool Description');
 
       const submitButton = await screen.findByLabelText('create');

@@ -7,6 +7,7 @@ import {
   UpdateEncounterDocument,
 } from '../__generated__/graphql';
 import encounters from './encounters';
+import { TEST_MUTATION, TEST_QUERY } from '../providers/GraphQLProvider.test';
 
 const handlers = [
   graphql.query(GetEncountersDocument, () => {
@@ -48,6 +49,22 @@ const handlers = [
         updateEncounter: {
           encounter: variables.encounter,
         },
+      },
+    });
+  }),
+
+  graphql.query(TEST_QUERY, () => {
+    return HttpResponse.json({
+      data: {
+        status: 'success',
+      },
+    });
+  }),
+
+  graphql.mutation(TEST_MUTATION, () => {
+    return HttpResponse.json({
+      data: {
+        status: 'success',
       },
     });
   }),

@@ -49,7 +49,7 @@ afterAll((): void => {
 });
 
 describe('AuthProvider', () => {
-  it('provides expected AuthContext obj to child elements', async () => {
+  it('provides expected AuthContext to child elements', async () => {
     render(
       <AuthProvider>
         <TestComponent />

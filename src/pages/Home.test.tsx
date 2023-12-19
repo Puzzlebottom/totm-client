@@ -1,96 +1,17 @@
 import { describe, it, expect } from 'vitest';
 import { render, screen, waitFor } from '@testing-library/react';
-import { MockedProvider } from '@apollo/client/testing';
 import { MemoryRouter } from 'react-router-dom';
 import userEvent from '@testing-library/user-event';
 import Home from './Home';
-import encounterRequests from '../api/encounterRequests';
-import encountersMock from '../mocks/encounters';
+import GraphQLProvider from '../providers/GraphQLProvider';
 
 const setupTest = () => {
-  const mocks = [
-    {
-      request: { query: encounterRequests.GET_ALL },
-      result: { data: { allEncounters: encountersMock } },
-    },
-    {
-      request: {
-        query: encounterRequests.CREATE,
-        variables: {
-          name: 'Test Encounter 4',
-          description: 'A Cool Description',
-        },
-      },
-      result: {
-        data: {
-          createEncounter: {
-            id: 3,
-            name: 'Test Encounter 4',
-            description: 'A Cool Description',
-            isActive: false,
-            round: 0,
-            turn: 0,
-            owner: 0,
-            createdAt: Date.now(),
-          },
-        },
-      },
-    },
-    {
-      request: {
-        query: encounterRequests.DELETE,
-        variables: {
-          id: 2,
-        },
-      },
-      result: {
-        data: {
-          deleteEncounter: {
-            id: 2,
-          },
-        },
-      },
-    },
-    {
-      request: {
-        query: encounterRequests.UPDATE,
-        variables: {
-          encounter: {
-            id: 2,
-            name: 'Updated Name',
-            description: 'Updated Description',
-            isActive: false,
-            round: 0,
-            turn: 0,
-            owner: 0,
-          },
-        },
-      },
-      result: {
-        data: {
-          updateEncounter: {
-            encounter: {
-              id: 2,
-              name: 'Updated Name',
-              description: 'Updated Description',
-              isActive: false,
-              round: 0,
-              turn: 0,
-              owner: 0,
-              createdAt: Date.now(),
-            },
-          },
-        },
-      },
-    },
-  ];
-
   render(
-    <MockedProvider mocks={mocks}>
+    <GraphQLProvider>
       <MemoryRouter initialEntries={['/']}>
         <Home />
       </MemoryRouter>
-    </MockedProvider>
+    </GraphQLProvider>
   );
 };
 

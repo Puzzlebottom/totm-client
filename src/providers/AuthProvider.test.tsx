@@ -26,6 +26,7 @@ let originalLocalStorage: Storage;
 
 function TestComponent() {
   const { token, setToken } = useAuth();
+
   return (
     <>
       <p data-testid="token">{token}</p>
@@ -60,7 +61,7 @@ describe('AuthProvider', () => {
     const setButton = await screen.findByText('SET');
     const unsetButton = await screen.findByText('UNSET');
 
-    expect(tokenElement).toHaveTextContent('');
+    expect(tokenElement).toBeEmptyDOMElement();
 
     const user = userEvent.setup();
 
@@ -68,6 +69,6 @@ describe('AuthProvider', () => {
     expect(tokenElement).toHaveTextContent('Test');
 
     await user.click(unsetButton);
-    expect(tokenElement).toHaveTextContent('');
+    expect(tokenElement).toBeEmptyDOMElement();
   });
 });

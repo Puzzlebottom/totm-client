@@ -1,8 +1,7 @@
 /* eslint-disable import/no-extraneous-dependencies */
-/// <reference types="vitest" />
 /// <reference types="vite/client" />
-
-import { defineConfig } from 'vite';
+/// <reference types="vitest" />
+import { UserConfig, defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 import codegen from 'vite-plugin-graphql-codegen';
 
@@ -18,4 +17,4 @@ export default defineConfig({
       exclude: ['src/__generated__'],
     },
   },
-});
+} as UserConfig);

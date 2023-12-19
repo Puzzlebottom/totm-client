@@ -1,5 +1,6 @@
 /* eslint-disable import/no-extraneous-dependencies */
 import { graphql, HttpResponse } from 'msw';
+import { gql } from '@apollo/client';
 import {
   GetEncountersDocument,
   CreateEncounterDocument,
@@ -7,7 +8,24 @@ import {
   UpdateEncounterDocument,
 } from '../__generated__/graphql';
 import encounters from './encounters';
-import { TEST_MUTATION, TEST_QUERY } from '../providers/GraphQLProvider.test';
+
+export const TEST_QUERY = gql(`
+  query testQuery {
+    status
+  }
+`);
+
+export const TEST_MUTATION = gql(`
+  mutation testMutation {
+    status
+  }
+`);
+
+export const TEST_AUTH = gql(`
+  query testAuth {
+    token
+  }
+`);
 
 const handlers = [
   graphql.query(GetEncountersDocument, () => {
@@ -65,6 +83,15 @@ const handlers = [
     return HttpResponse.json({
       data: {
         status: 'success',
+      },
+    });
+  }),
+
+  graphql.query(TEST_AUTH, ({ request }) => {
+    const token = request.headers.get('authorization');
+    return HttpResponse.json({
+      data: {
+        token,
       },
     });
   }),

@@ -45,7 +45,9 @@ const setupTest = () => {
       },
       result: {
         data: {
-          id: 2,
+          deleteEncounter: {
+            id: 2,
+          },
         },
       },
     },
@@ -75,6 +77,7 @@ const setupTest = () => {
               round: 0,
               turn: 0,
               owner: 0,
+              createdAt: Date.now(),
             },
           },
         },

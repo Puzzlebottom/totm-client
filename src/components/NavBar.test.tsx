@@ -1,7 +1,21 @@
-import { describe, it, expect } from 'vitest';
+import { describe, it, expect, vi } from 'vitest';
 import { render, screen } from '@testing-library/react';
 import { HashRouter } from 'react-router-dom';
+import userEvent from '@testing-library/user-event';
 import NavBar from './NavBar';
+
+const mockedUseNavigate = vi.fn();
+
+vi.mock('react-router-dom', async () => {
+  const actual =
+    await vi.importActual<typeof import('react-router-dom')>(
+      'react-router-dom'
+    );
+  return {
+    ...actual,
+    useNavigate: () => mockedUseNavigate,
+  };
+});
 
 const setupTest = () => {
   const links = ['heroes', 'monsters', 'locations', 'treasure'];
@@ -22,15 +36,27 @@ describe('NavBar', () => {
     expect(rest).toHaveLength(4);
   });
 
-  it('should have buttons for login and register', async () => {
+  it('should have a button for login', async () => {
     setupTest();
+    const user = userEvent.setup();
+    const loginButton = await screen.findByRole('button', { name: 'login' });
 
-    expect(
-      await screen.findByRole('button', { name: 'login' })
-    ).toBeInTheDocument();
+    expect(loginButton).toBeInTheDocument();
 
-    expect(
-      await screen.findByRole('button', { name: 'register' })
-    ).toBeInTheDocument();
+    await user.click(loginButton);
+
+    expect(mockedUseNavigate).toHaveBeenCalledWith('/login');
+  });
+
+  it('should have a button for register', async () => {
+    setupTest();
+    const user = userEvent.setup();
+    const registerButton = await screen.findByRole('button', {
+      name: 'register',
+    });
+
+    await user.click(registerButton);
+
+    expect(mockedUseNavigate).toHaveBeenCalledWith('/register');
   });
 });

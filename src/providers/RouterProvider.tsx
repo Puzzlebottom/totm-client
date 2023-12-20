@@ -29,63 +29,63 @@ interface RouteWrapper {
   children: Route[];
 }
 
+export const routesForPublic: Route[] = [
+  {
+    path: '/about',
+    element: <h1>About</h1>,
+  },
+  {
+    path: '*',
+    element: <NotFound />,
+  },
+];
+
+export const routesForAuthenticatedOnly: RouteWrapper[] = [
+  {
+    path: '/',
+    element: <ProtectedRoute />,
+    children: [
+      {
+        path: '/',
+        element: <Home />,
+      },
+      {
+        path: '/heroes',
+        element: <h1>Heroes</h1>,
+      },
+      {
+        path: '/monsters',
+        element: <h1>Monsters</h1>,
+      },
+      {
+        path: '/locations',
+        element: <h1>Locations</h1>,
+      },
+      {
+        path: '/treasure',
+        element: <h1>Treasure</h1>,
+      },
+      {
+        path: '/logout',
+        element: <h1>Logout</h1>,
+      },
+    ],
+  },
+];
+
+export const routesForNotAuthenticatedOnly = [
+  {
+    path: '/login',
+    element: <h1>Login</h1>,
+  },
+  {
+    path: '/register',
+    element: <h1>Register</h1>,
+  },
+];
+
 function Routes() {
   const { token } = useAuth();
-
-  const routesForPublic: Route[] = [
-    {
-      path: '/about',
-      element: <div>About</div>,
-    },
-    {
-      path: '/not-found',
-      element: <NotFound />,
-    },
-  ];
-
-  const routesForAuthenticatedOnly: RouteWrapper[] = [
-    {
-      path: '/',
-      element: <ProtectedRoute />,
-      children: [
-        {
-          path: '/',
-          element: <Home />,
-        },
-        {
-          path: '/heroes',
-          element: <div>Heroes</div>,
-        },
-        {
-          path: '/monsters',
-          element: <div>Monsters</div>,
-        },
-        {
-          path: '/locations',
-          element: <div>Locations</div>,
-        },
-        {
-          path: '/treasure',
-          element: <div>Treasure</div>,
-        },
-        {
-          path: '/logout',
-          element: <div>Logout</div>,
-        },
-      ],
-    },
-  ];
-
-  const routesForNotAuthenticatedOnly = [
-    {
-      path: '/login',
-      element: <div>Login</div>,
-    },
-    {
-      path: '/register',
-      element: <div>Register</div>,
-    },
-  ];
 
   const router = createBrowserRouter([
     ...routesForPublic,

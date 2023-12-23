@@ -1,8 +1,9 @@
 import { describe, it, expect, vi } from 'vitest';
 import { render, screen } from '@testing-library/react';
-import { HashRouter } from 'react-router-dom';
+import { MemoryRouter } from 'react-router-dom';
 import userEvent from '@testing-library/user-event';
 import NavBar from './NavBar';
+import GraphQLProvider from '../providers/GraphQLProvider';
 
 const mockedUseNavigate = vi.fn();
 
@@ -20,9 +21,11 @@ vi.mock('react-router-dom', async () => {
 const setupTest = () => {
   const links = ['heroes', 'monsters', 'locations', 'treasure'];
   render(
-    <HashRouter>
-      <NavBar links={links} />
-    </HashRouter>
+    <GraphQLProvider>
+      <MemoryRouter>
+        <NavBar links={links} />
+      </MemoryRouter>
+    </GraphQLProvider>
   );
 };
 

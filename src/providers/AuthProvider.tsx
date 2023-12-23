@@ -21,6 +21,11 @@ function AuthProvider({ children }: { children: ReactNode }) {
   );
 
   const setToken = (newToken: AuthToken) => {
+    if (newToken) {
+      localStorage.setItem('token', newToken);
+    } else {
+      localStorage.removeItem('token');
+    }
     setNewToken(newToken);
   };
 

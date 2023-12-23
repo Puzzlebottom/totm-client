@@ -1,5 +1,5 @@
 const localStorageMock: Storage = (() => {
-  let store: Record<string, string> = {};
+  const store: Record<string, string> = {};
 
   return {
     getItem: (key: string): string => store[key] ?? null,
@@ -9,12 +9,12 @@ const localStorageMock: Storage = (() => {
     removeItem: (key: string): void => {
       delete store[key];
     },
-    clear: (): void => {
-      store = {};
-    },
-    key: (): string | null => '',
-    length: Object.keys(store).length,
-  };
+    // clear: (): void => {
+    //   store = {};
+    // },
+    // key: (): string | null => '',
+    // length: Object.keys(store).length,
+  } as Storage;
 })();
 
 export default localStorageMock;

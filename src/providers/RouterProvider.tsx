@@ -7,6 +7,8 @@ import {
 import { useAuth } from './AuthProvider';
 import Home from '../pages/Home';
 import NotFound from '../pages/NotFound';
+import Register from '../pages/Register';
+import Login from '../pages/Login';
 
 function ProtectedRoute() {
   const { token } = useAuth();
@@ -76,11 +78,11 @@ export const routesForAuthenticatedOnly: RouteWrapper[] = [
 export const routesForNotAuthenticatedOnly = [
   {
     path: '/login',
-    element: <h1>Login</h1>,
+    element: <Login />,
   },
   {
     path: '/register',
-    element: <h1>Register</h1>,
+    element: <Register />,
   },
 ];
 

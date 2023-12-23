@@ -1,0 +1,35 @@
+main.login-register {
+  display: flex;
+  justify-content: center;
+  
+  article {
+    width: 50%;
+    background-color: var(--color-light-gray);
+    color: var(--text-light);
+    padding: 2em;
+    
+      header {
+        display: flex;
+        justify-content: center;
+      }
+
+      form {
+        display: flex;
+        flex-direction: column;
+        width: fit-content;
+        margin: auto;
+    
+        span {
+          margin: 0.5em;
+        }
+    
+        input {
+          margin: 0 0.5em 0.5em 0.5em;
+        }
+
+        button {
+          margin-top: 3em;
+        }
+      }
+  }
+}

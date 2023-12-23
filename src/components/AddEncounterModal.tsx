@@ -16,17 +16,6 @@ type Props = {
   onClose: () => void;
 };
 
-const testEncounter: Encounter = {
-  id: 12,
-  name: '',
-  description: '',
-  isActive: false,
-  round: 0,
-  turn: 0,
-  owner: 0,
-  createdAt: Date.now(),
-};
-
 export default function AddEncounterModal({
   isOpen,
   onSubmit,
@@ -42,7 +31,7 @@ export default function AddEncounterModal({
   });
 
   const submit = (data: FieldValues) => {
-    onSubmit({ ...testEncounter, ...data });
+    onSubmit({ ...data } as Encounter);
     reset();
     onClose();
   };

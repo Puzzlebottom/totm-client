@@ -1,4 +1,3 @@
-/* eslint-disable import/prefer-default-export */
 import { gql } from '../__generated__';
 
 const encounterRequests = {

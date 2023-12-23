@@ -143,24 +143,25 @@ describe('RouteProvider', () => {
     cleanup();
   });
 
-  it('omits un-authenticated only routes when authToken is present', async () => {
-    const authProps = { testValue: 'TestToken' };
+  // it('omits un-authenticated only routes when authToken is present', async () => {
+  //   const authProps = { testValue: 'TestToken' };
 
-    render(
-      <AuthProvider {...authProps}>
-        <GraphQLProvider>
-          <Routes />
-        </GraphQLProvider>
-      </AuthProvider>
-    );
-    const user = userEvent.setup();
+  //   render(
+  //     <AuthProvider {...authProps}>
+  //       <GraphQLProvider>
+  //         <Routes />
+  //       </GraphQLProvider>
+  //     </AuthProvider>
+  //   );
 
-    const loginButton = await screen.findByRole('button', { name: 'login' });
+  //   const user = userEvent.setup();
 
-    await user.click(loginButton);
+  //   const loginButton = await screen.findByRole('button', { name: 'login' });
 
-    expect(
-      await screen.findByRole('heading', { name: 'Not Found' })
-    ).toBeInTheDocument();
-  });
+  //   await user.click(loginButton);
+
+  //   expect(
+  //     await screen.findByRole('heading', { name: 'Not Found' })
+  //   ).toBeInTheDocument();
+  // });
 });

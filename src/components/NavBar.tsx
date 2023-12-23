@@ -14,9 +14,9 @@ export default function NavBar({ links }: Props): React.ReactNode {
   const { token, setToken } = useAuth();
   const [logoutUser] = useMutation(userRequests.LOGOUT);
 
-  const logout = () => {
-    setToken(null);
+  const logout = async () => {
     logoutUser();
+    setToken(null);
     navigate('/login');
   };
 

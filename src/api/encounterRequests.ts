@@ -10,7 +10,6 @@ const encounterRequests = {
         isActive
         round
         turn
-        owner
         createdAt
       }
     }
@@ -28,7 +27,6 @@ const encounterRequests = {
         isActive
         round
         turn
-        owner
         createdAt
       }
     }
@@ -56,7 +54,6 @@ const encounterRequests = {
           isActive
           round
           turn
-          owner
           createdAt
         }
       }

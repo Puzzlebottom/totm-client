@@ -1,5 +1,6 @@
 .navbar{
   position: fixed;
+  z-index: 1000;
   display: grid;
   grid-template-columns: auto 1fr auto;
   width: 100vw;

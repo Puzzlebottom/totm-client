@@ -52,16 +52,24 @@ function Register() {
             <span className={errors.email ? 'warning' : ''}>
               Email {errors.email && `${errors.email.message}`}
             </span>
-            <input {...register('email')} />
+            <input {...register('email')} autoComplete="email" />
             <span className={errors.password ? 'warning' : ''}>
               Password {errors.password && `${errors.password.message}`}
             </span>
-            <input {...register('password')} type="password" />
+            <input
+              {...register('password')}
+              type="password"
+              autoComplete="off"
+            />
             <span className={errors.confirmPassword ? 'warning' : ''}>
               Confirm
               {errors.confirmPassword && `${errors.confirmPassword.message}`}
             </span>
-            <input {...register('confirmPassword')} type="password" />
+            <input
+              {...register('confirmPassword')}
+              type="password"
+              autoComplete="off"
+            />
             <button
               type="submit"
               disabled={isSubmitting}
